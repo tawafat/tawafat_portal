@@ -436,7 +436,7 @@ export const material = [
     'cruelty_free',
     'dangerous',
     'dark_mode',
-    'dashboard',
+    'home',
     'dashboard_customize',
     'data_exploration',
     'data_saver_off',

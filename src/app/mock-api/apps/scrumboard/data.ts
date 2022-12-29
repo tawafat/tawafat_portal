@@ -104,7 +104,7 @@ export const cards = [
         boardId : '2c82225f-2a6c-45d3-b18a-1132712a4234',
         listId  : 'a2df7786-519c-485a-a85f-c09a61cc5f37',
         position: 196608,
-        title   : 'Implement the Project dashboard',
+        title   : 'Implement the Project home',
         labels  : [
             'caff9c9b-a198-4564-b1f4-8b3df1d345bb'
         ],
@@ -115,7 +115,7 @@ export const cards = [
         boardId : '2c82225f-2a6c-45d3-b18a-1132712a4234',
         listId  : 'a2df7786-519c-485a-a85f-c09a61cc5f37',
         position: 262144,
-        title   : 'Implement the Analytics dashboard',
+        title   : 'Implement the Analytics home',
         labels  : [
             'caff9c9b-a198-4564-b1f4-8b3df1d345bb'
         ],
@@ -126,7 +126,7 @@ export const cards = [
         boardId : '2c82225f-2a6c-45d3-b18a-1132712a4234',
         listId  : '83ca2a34-65af-49c0-a42e-94a34003fcf2',
         position: 65536,
-        title   : 'Analytics dashboard design',
+        title   : 'Analytics home design',
         labels  : [
             'e8364d69-9595-46ce-a0f9-ce428632a0ac'
         ],
@@ -137,7 +137,7 @@ export const cards = [
         boardId : '2c82225f-2a6c-45d3-b18a-1132712a4234',
         listId  : '83ca2a34-65af-49c0-a42e-94a34003fcf2',
         position: 131072,
-        title   : 'Project dashboard design',
+        title   : 'Project home design',
         labels  : [
             'e8364d69-9595-46ce-a0f9-ce428632a0ac'
         ],

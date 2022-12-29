@@ -35,7 +35,10 @@ import { otherComponentsRoutes } from 'app/modules/admin/ui/other-components/oth
         ApexChartsComponent,
         QuillEditorComponent
     ],
-    imports     : [
+    exports: [
+        ApexChartsComponent
+    ],
+    imports: [
         RouterModule.forChild(otherComponentsRoutes),
         MatButtonModule,
         MatIconModule,

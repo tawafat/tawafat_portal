@@ -253,8 +253,8 @@ export const guides = [
     {
         id        : '1fecee67-c4b4-413a-b0f2-949dcab73249',
         categoryId: '0ee72de7-49c0-4880-9e89-b72a4edd6a81',
-        slug      : 'signing-in-to-the-dashboard',
-        title     : 'Signing in to the dashboard',
+        slug      : 'signing-in-to-the-home',
+        title     : 'Signing in to the home',
         subtitle  : 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt'
     },
     {

@@ -1,0 +1,117 @@
+<!-- Header -->
+<div class="flex flex-col w-full">
+    <div class="bg-card">
+        <div class="flex flex-col w-full max-w-screen-xl mx-auto px-6 sm:px-8">
+            <div class="flex flex-row items-center my-8">
+                <!-- Avatar and name -->
+                <div class="flex flex-grow items-center min-w-0">
+                    <div class="flex-0 w-16 h-16 rounded-full bg-primary flex items-center justify-center">
+                        <mat-icon svgIcon="mat_solid:work" [ngStyle]="{'color': 'white'}"
+                                  class="icon-size-10"></mat-icon>
+                    </div>
+                    <div class="flex flex-col min-w-0 mr-4">
+                        <div
+                            class="text-2xl md:text-5xl font-medium tracking-tight leading-7 md:leading-snug truncate">
+                            قائمة المهام
+                        </div>
+                    </div>
+                </div>
+                <!-- Action -->
+                <button
+                    mat-flat-button
+                    (click)="createJob()"
+                    [color]="'primary'">
+                    <mat-icon
+                        class="icon-size-5"
+                        [svgIcon]="'heroicons_solid:plus'"></mat-icon>
+                    <span class="mr-2">أضافة</span>
+                </button>
+            </div>
+        </div>
+
+    </div>
+    <div class="flex-auto border-t -mt-px pt-4 sm:pt-6 p-4 mx-8">
+        <div class="flex lg:flex-row flex-col gap-4 w-full">
+            <div class="w-full p-6 bg-card shadow rounded-2xl overflow-auto">
+                <div class="flex flex-row w-full items-center justify-evenly">
+                    <div class="w-full">
+                        <table mat-table [dataSource]="dataSource" class="demo-table">
+
+                            <!-- Position Column -->
+                            <ng-container matColumnDef="status">
+                                <th mat-header-cell *matHeaderCellDef> الحالة</th>
+                                <td mat-cell *matCellDef="let element">
+                                    <mat-icon *ngIf="element.status === 'completed'" [ngStyle]="{'color':'#40DB90'}" svgIcon="circle"></mat-icon>
+                                    <mat-icon *ngIf="element.status === 'inactive'" [ngStyle]="{'color':'#4090DB'}" svgIcon="circle"></mat-icon>
+                                    <mat-icon *ngIf="element.status === 'missed'" [ngStyle]="{'color':'#E75B5B'}" svgIcon="circle"></mat-icon>
+                                    <mat-icon *ngIf="element.status === 'late'" [ngStyle]="{'color':'#F9A400'}" svgIcon="circle"></mat-icon>
+
+                                </td>
+                            </ng-container>
+
+                            <!-- Position Column -->
+                            <ng-container matColumnDef="name">
+                                <th mat-header-cell *matHeaderCellDef> الأسم</th>
+                                <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+                            </ng-container>
+
+                            <!-- Name Column -->
+                            <ng-container matColumnDef="category">
+                                <th mat-header-cell *matHeaderCellDef> التصنيف</th>
+                                <td mat-cell *matCellDef="let element"> {{element.category}} </td>
+                            </ng-container>
+
+                            <!-- Weight Column -->
+                            <ng-container matColumnDef="startDate">
+                                <th mat-header-cell *matHeaderCellDef> تاريخ البدئ</th>
+                                <td mat-cell *matCellDef="let element"> {{element.startDate}} </td>
+                            </ng-container>
+
+                            <!-- Symbol Column -->
+                            <ng-container matColumnDef="startTime">
+                                <th mat-header-cell *matHeaderCellDef> وقت البدئ</th>
+                                <td mat-cell *matCellDef="let element"> {{element.startTime}} </td>
+                            </ng-container>
+
+                            <!-- Symbol Column -->
+                            <ng-container matColumnDef="endDate">
+                                <th mat-header-cell *matHeaderCellDef> تاريخ الإنتهاء</th>
+                                <td mat-cell *matCellDef="let element"> {{element.endDate}} </td>
+                            </ng-container>
+
+                            <!-- Symbol Column -->
+                            <ng-container matColumnDef="assignedBy">
+                                <th mat-header-cell *matHeaderCellDef> المكلف بالعمل</th>
+                                <td mat-cell *matCellDef="let element"> {{element.assignedBy}} </td>
+                            </ng-container>
+
+                            <!-- Symbol Column -->
+                            <ng-container matColumnDef="complain">
+                                <th mat-header-cell *matHeaderCellDef> شكوى</th>
+                                <td mat-cell *matCellDef="let element">
+                                    <mat-icon *ngIf="element.complain" [ngStyle]="{'color':'#F9A400'}" svgIcon="warning"></mat-icon>
+                                    <mat-icon *ngIf="!element.complain" [ngClass]="'text-primary'" svgIcon="heroicons_solid:minus"></mat-icon>
+
+                                </td>
+                            </ng-container>
+
+                            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                            <tr
+                                mat-row
+                                (click)="goToJob()"
+                                *matRowDef="let row; columns: displayedColumns;"
+                            ></tr>
+                        </table>
+                        <div class="flex justify-end">
+                            <mat-paginator #paginator [pageSizeOptions]="[5, 10, 20]"
+                                           showFirstLastButtons
+                                           aria-label="Select page of periodic elements">
+                            </mat-paginator>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

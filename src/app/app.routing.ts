@@ -10,14 +10,14 @@ import { InitialDataResolver } from 'app/app.resolvers';
 export const appRoutes: Route[] = [
 
     // Redirect empty path to '/dashboards/project'
-    {path: '', pathMatch : 'full', redirectTo: 'dashboards/project'},
+    {path: '', pathMatch : 'full', redirectTo: 'home'},
 
     // Redirect signed-in user to the '/dashboards/project'
     //
     // After the user signs in, the sign-in page will redirect the user to the 'signed-in-redirect'
     // path. Below is another redirection for that path to redirect the user to the desired
     // location. This is a small convenience to keep all main routes together here on this file.
-    {path: 'signed-in-redirect', pathMatch : 'full', redirectTo: 'dashboards/project'},
+    {path: 'signed-in-redirect', pathMatch : 'full', redirectTo: 'home'},
 
     // Auth routes for guests
     {
@@ -57,9 +57,6 @@ export const appRoutes: Route[] = [
         data: {
             layout: 'empty'
         },
-        children: [
-            {path: 'home', loadChildren: () => import('app/modules/landing/home/home.module').then(m => m.LandingHomeModule)},
-        ]
     },
 
     // Admin routes
@@ -71,6 +68,12 @@ export const appRoutes: Route[] = [
             initialData: InitialDataResolver,
         },
         children: [
+
+            {path: 'home', loadChildren: () => import('app/modules/home/home-module.module').then(m => m.HomeModule)},
+            {path: 'jobs', loadChildren: () => import('app/modules/jobs/jobs.module').then(m => m.JobsModule)},
+            {path: 'employees', loadChildren: () => import('app/modules/employees/employees.module').then(m => m.EmployeesModule)},
+            {path: 'change-password', loadChildren: () => import('app/modules/change-password/change-password.module').then(m => m.ChangePasswordModule)},
+
 
             // Dashboards
             {path: 'dashboards', children: [
@@ -139,54 +142,7 @@ export const appRoutes: Route[] = [
             ]},
 
             // User Interface
-            {path: 'ui', children: [
 
-                // Material Components
-                {path: 'material-components', loadChildren: () => import('app/modules/admin/ui/material-components/material-components.module').then(m => m.MaterialComponentsModule)},
-
-                // Fuse Components
-                {path: 'fuse-components', loadChildren: () => import('app/modules/admin/ui/fuse-components/fuse-components.module').then(m => m.FuseComponentsModule)},
-
-                // Other Components
-                {path: 'other-components', loadChildren: () => import('app/modules/admin/ui/other-components/other-components.module').then(m => m.OtherComponentsModule)},
-
-                // TailwindCSS
-                {path: 'tailwindcss', loadChildren: () => import('app/modules/admin/ui/tailwindcss/tailwindcss.module').then(m => m.TailwindCSSModule)},
-
-                // Advanced Search
-                {path: 'advanced-search', loadChildren: () => import('app/modules/admin/ui/advanced-search/advanced-search.module').then(m => m.AdvancedSearchModule)},
-
-                // Animations
-                {path: 'animations', loadChildren: () => import('app/modules/admin/ui/animations/animations.module').then(m => m.AnimationsModule)},
-
-                 // Cards
-                {path: 'cards', loadChildren: () => import('app/modules/admin/ui/cards/cards.module').then(m => m.CardsModule)},
-
-                // Colors
-                {path: 'colors', loadChildren: () => import('app/modules/admin/ui/colors/colors.module').then(m => m.ColorsModule)},
-
-                // Confirmation Dialog
-                {path: 'confirmation-dialog', loadChildren: () => import('app/modules/admin/ui/confirmation-dialog/confirmation-dialog.module').then(m => m.ConfirmationDialogModule)},
-
-                // Datatable
-                {path: 'datatable', loadChildren: () => import('app/modules/admin/ui/datatable/datatable.module').then(m => m.DatatableModule)},
-
-                // Forms
-                {path: 'forms', children: [
-                    {path: 'fields', loadChildren: () => import('app/modules/admin/ui/forms/fields/fields.module').then(m => m.FormsFieldsModule)},
-                    {path: 'layouts', loadChildren: () => import('app/modules/admin/ui/forms/layouts/layouts.module').then(m => m.FormsLayoutsModule)},
-                    {path: 'wizards', loadChildren: () => import('app/modules/admin/ui/forms/wizards/wizards.module').then(m => m.FormsWizardsModule)}
-                ]},
-
-                // Icons
-                {path: 'icons', loadChildren: () => import('app/modules/admin/ui/icons/icons.module').then(m => m.IconsModule)},
-
-                // Page Layouts
-                {path: 'page-layouts', loadChildren: () => import('app/modules/admin/ui/page-layouts/page-layouts.module').then(m => m.PageLayoutsModule)},
-
-                // Typography
-                {path: 'typography', loadChildren: () => import('app/modules/admin/ui/typography/typography.module').then(m => m.TypographyModule)}
-            ]},
 
             // Documentation
             {path: 'docs', children: [

@@ -384,8 +384,8 @@ export class ChangelogComponent
                 {
                     type: 'Added',
                     list: [
-                        '(dashboards/finance) Added finance dashboard',
-                        '(dashboards/crypto) Added crypto dashboard'
+                        '(dashboards/finance) Added finance home',
+                        '(dashboards/crypto) Added crypto home'
                     ]
                 },
                 {

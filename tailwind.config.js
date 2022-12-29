@@ -10,7 +10,8 @@ const generatePalette = require(path.resolve(__dirname, ('src/@fuse/tailwind/uti
  * Tailwind-like color palettes automatically
  */
 const customPalettes = {
-    brand: generatePalette('#2196F3')
+    primary: generatePalette('#B28745'),
+    accent: generatePalette('#231f20')
 };
 
 /**
@@ -20,12 +21,12 @@ const themes = {
     // Default theme is required for theming system to work correctly!
     'default': {
         primary  : {
-            ...colors.indigo,
-            DEFAULT: colors.indigo[600]
+            ...customPalettes.primary,
+            DEFAULT: customPalettes.primary[600]
         },
         accent   : {
-            ...colors.slate,
-            DEFAULT: colors.slate[800]
+            ...customPalettes.accent,
+            DEFAULT: customPalettes.accent[800]
         },
         warn     : {
             ...colors.red,
@@ -102,8 +103,8 @@ const config = {
                 '0': '0 0 auto'
             },
             fontFamily              : {
-                sans: `"Inter var", ${defaultTheme.fontFamily.sans.join(',')}`,
-                mono: `"IBM Plex Mono", ${defaultTheme.fontFamily.mono.join(',')}`
+                sans: `"Cairo", ${defaultTheme.fontFamily.sans.join(',')}`,
+                mono: `"Cairo", ${defaultTheme.fontFamily.mono.join(',')}`
             },
             opacity                 : {
                 12: '0.12',

@@ -120,7 +120,7 @@ export class LanguagesComponent implements OnInit, OnDestroy
         // Get the flat navigation data
         const navigation = navComponent.navigation;
 
-        // Get the Project dashboard item and update its title
+        // Get the Project home item and update its title
         const projectDashboardItem = this._fuseNavigationService.getItem('dashboards.project', navigation);
         if ( projectDashboardItem )
         {
@@ -135,7 +135,7 @@ export class LanguagesComponent implements OnInit, OnDestroy
                 });
         }
 
-        // Get the Analytics dashboard item and update its title
+        // Get the Analytics home item and update its title
         const analyticsDashboardItem = this._fuseNavigationService.getItem('dashboards.analytics', navigation);
         if ( analyticsDashboardItem )
         {

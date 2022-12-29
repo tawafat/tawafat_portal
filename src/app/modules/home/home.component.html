@@ -1,0 +1,95 @@
+<div class="flex flex-col flex-auto min-w-0">
+
+    <!-- Header -->
+    <div class="bg-card">
+        <div class="flex flex-col w-full max-w-screen-xl mx-auto px-6 sm:px-8">
+            <div class="flex flex-col sm:flex-row flex-auto sm:items-center min-w-0 my-8 sm:my-12">
+                <!-- Avatar and name -->
+                <div class="flex flex-auto items-center min-w-0">
+                    <div class="flex-0 w-16 h-16 rounded-full overflow-hidden">
+                        <img
+                            class="w-full h-full object-cover"
+                            src="assets/images/logo/profile.png">
+                    </div>
+                    <div class="flex flex-col min-w-0 mr-4">
+                        <ng-container *transloco="let t">
+                            <div
+                                class="text-2xl md:text-5xl font-medium tracking-tight leading-7 md:leading-snug truncate">
+                                <span class="pe-2">مرحبا,</span>ذكريا عبدالله
+                            </div>
+                        </ng-container>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main -->
+    <div class="flex-auto border-t -mt-px pt-4 sm:pt-6 p-4">
+        <div class="w-full max-w-screen-xl mx-auto">
+            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 w-full min-w-0">
+                <!-- Summary -->
+                <div class="flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden">
+                    <div class="flex items-start justify-between">
+                        <div class="text-lg font-medium tracking-tight leading-6 truncate">اجمالي المهام</div>
+                    </div>
+                    <div class="flex flex-col items-center mt-2">
+                        <div class="text-7xl sm:text-8xl font-bold tracking-tight leading-none text-blue-500">21</div>
+                        <div class="text-lg font-medium text-blue-600 dark:text-blue-500">مهمة</div>
+                    </div>
+                </div>
+                <!-- Overdue -->
+                <div class="flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden">
+                    <div class="flex items-start justify-between">
+                        <div class="text-lg font-medium tracking-tight leading-6 truncate">المهام قيد التشغيل</div>
+                    </div>
+                    <div class="flex flex-col items-center mt-2">
+                        <div class="text-7xl sm:text-8xl font-bold tracking-tight leading-none text-red-500">17</div>
+                        <div class="text-lg font-medium text-red-600 dark:text-red-500">مهمة</div>
+                    </div>
+                </div>
+                <!-- Issues -->
+                <div class="flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden">
+                    <div class="flex items-start justify-between">
+                        <div class="text-lg font-medium tracking-tight leading-6 truncate">المهام المكتملة</div>
+                    </div>
+                    <div class="flex flex-col items-center mt-2">
+                        <div class="text-7xl sm:text-8xl font-bold tracking-tight leading-none text-amber-500">24</div>
+                        <div class="text-lg font-medium text-amber-600 dark:text-amber-500">مهمة</div>
+                    </div>
+                </div>
+                <!-- Features -->
+                <div class="flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden">
+                    <div class="flex items-start justify-between">
+                        <div class="text-lg font-medium tracking-tight leading-6 truncate">المهام الغير مكتملة</div>
+                    </div>
+                    <div class="flex flex-col items-center mt-2">
+                        <div class="text-7xl sm:text-8xl font-bold tracking-tight leading-none text-green-500">38</div>
+                        <div class="text-lg font-medium text-green-600 dark:text-green-500">مهمة</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="flex lg:flex-row flex-col gap-4 w-full mt-4">
+            <div class="lg:w-8/12 w-full p-6 bg-card shadow rounded-2xl overflow-hidden">
+                <apx-chart dir="ltr" [series]="chartOptions.series"
+                           [chart]="chartOptions.chart"
+                           [xaxis]="chartOptions.xaxis"
+                           [title]="chartOptions.title"></apx-chart>
+            </div>
+            <div class="flex flex-row lg:w-4/12 w-full p-6 bg-card shadow rounded-2xl overflow-hidden justify-center">
+                <apx-chart dir="ltr" [chart]="pieChartOptions.chart"
+                           [colors]="pieChartOptions.colors"
+                           [labels]="pieChartOptions.labels"
+                           [plotOptions]="pieChartOptions.plotOptions"
+                           [series]="pieChartOptions.series"
+                           [states]="pieChartOptions.states"
+                           [stroke]="pieChartOptions.stroke"
+                           [dataLabels]="pieChartOptions.dataLabels"
+                           [legend]="pieChartOptions.legend"
+                           [tooltip]="pieChartOptions.tooltip"></apx-chart>
+            </div>
+        </div>
+    </div>
+
+</div>
