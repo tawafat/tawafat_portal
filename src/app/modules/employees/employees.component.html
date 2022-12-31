@@ -30,15 +30,15 @@
                 <form [formGroup]="createUserForm" class="m-4">
                     <mat-form-field appearance="fill" class="w-full">
                         <mat-label class="text-white font-regular">اسم الموظف</mat-label>
-                        <input matInput placeholder="اكتب اسم الموظف">
+                        <input matInput [formControlName]="'name'" placeholder="اكتب اسم الموظف">
                     </mat-form-field>
                     <mat-form-field appearance="fill" class="w-full">
                         <mat-label class="text-white font-regular">البريد الإلكتروني للموظف</mat-label>
-                        <input matInput placeholder="اكتب البريد الإلكتروني للموظف">
+                        <input matInput [formControlName]="'email'"  placeholder="اكتب البريد الإلكتروني للموظف">
                     </mat-form-field>
                     <mat-form-field appearance="fill" class="w-full">
                         <mat-label class="text-white font-regular">اسم اتصال الموظف</mat-label>
-                        <input type="password" #passwordField matInput placeholder="اكتب اتصال الموظف">
+                        <input type="password" [formControlName]="'password'"  #passwordField matInput placeholder="اكتب اتصال الموظف">
                         <button
                             mat-icon-button
                             type="button"

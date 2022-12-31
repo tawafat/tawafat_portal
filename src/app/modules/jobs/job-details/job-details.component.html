@@ -1,0 +1,218 @@
+<div class="flex flex-col w-full">
+    <div class="bg-card">
+        <div class="flex flex-col w-full max-w-screen-xl mx-auto px-6 sm:px-8">
+            <div class="flex flex-row items-center my-8">
+                <!-- Avatar and name -->
+                <div class="flex flex-grow items-center min-w-0">
+                    <div class="flex-0 w-16 h-16 rounded-full bg-primary flex items-center justify-center">
+                        <mat-icon svgIcon="mat_solid:work" [ngStyle]="{'color': 'white'}"
+                                  class="icon-size-10"></mat-icon>
+                    </div>
+                    <div class="flex flex-col min-w-0 mr-4">
+                        <div
+                            class="text-2xl md:text-5xl font-medium tracking-tight leading-7 md:leading-snug truncate">
+                            تفاصيل الوظيفة
+                        </div>
+                    </div>
+                </div>
+                <!-- Action -->
+                <button
+                    mat-flat-button
+                    [color]="'primary'"
+                    (click)="backToJobs()">
+                    <mat-icon class="icon-size-5" svgIcon="mat_solid:arrow_forward_ios"></mat-icon>
+                    <span class="mr-2">الرجوع للقائمة</span>
+                </button>
+            </div>
+        </div>
+
+    </div>
+    <!-- Attachments -->
+    <div class="flex-auto -mt-px pt-4 sm:pt-6 p-4 mx-8">
+        <div class="flex lg:flex-row flex-col gap-4 w-full">
+            <div class="w-full p-6 bg-card shadow rounded-2xl overflow-auto">
+                <div class="flex flex-col w-full gap-4">
+                    <div class="flex flex-grow font-bold text-lg sm:block hidden"
+                    >شكاوي</div>
+                        <div class="flex flex-col w-full">
+                            <div class="flex flex-row w-full justify-between">
+                                <div>زكريا عبد الله</div>
+                                <div>02:11 ص</div>
+                            </div>
+                            هل كان من الضروري أن هذا الشيء بهذه الطريقة؟
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Main -->
+    <div class="flex-auto -mt-px pt-4 sm:pt-6 p-4 mx-8">
+        <div class="flex lg:flex-row flex-col gap-4 w-full">
+            <div class="w-full p-6 bg-card shadow rounded-2xl overflow-auto">
+                <div class="flex flex-row w-full justify-between">
+                    <div class="font-bold">تفاصيل</div>
+                    <button
+                        [matTooltip]="'تحرير الوظيفة'"
+                        mat-icon-button
+                        (click)="editJob()">
+                        <mat-icon class="icon-size-5" svgIcon="mat_solid:edit" [ngClass]="'text-primary'"></mat-icon>
+                    </button>
+                </div>
+                <div class="flex sm:flex-row flex-col w-full gap-6">
+
+                    <div class="sm:w-1/2 w-full">
+                        <form [formGroup]="newJobForm" class="flex-wrap">
+                            <mat-form-field appearance="fill" class="w-full  ">
+                                <mat-label class="font-semibold">الرقم التسلسلي</mat-label>
+                                <input
+                                    readonly
+                                    value="#65471"
+                                    matInput
+                                    maxlength="40">
+                            </mat-form-field>
+                            <mat-form-field appearance="fill" class="w-full  ">
+                                <mat-label class="font-semibold">اسم الوظيفة</mat-label>
+                                <input
+                                    readonly
+                                    value="تنظيف أنابيب الهواء"
+                                    [formControlName]="'name'" matInput
+                                    [placeholder]="'اكتب اسم الوظيفة'"
+                                    maxlength="40">
+                                <mat-error *ngIf="newJobForm.get('name').getError('required')">
+                                    مطلوب اسم الوظيفة
+                                </mat-error>
+                            </mat-form-field>
+
+                            <mat-form-field appearance="fill" class="w-full  ">
+                                <mat-label class="font-semibold">التصنيف</mat-label>
+                                <input
+                                    readonly
+                                    value="تنظيف"
+                                    [formControlName]="'category'" matInput
+                                    [placeholder]="'اكتب التصنيف الوظيفة'"
+                                    maxlength="40">
+                                <mat-error *ngIf="newJobForm.get('category').getError('required')">
+                                    مطلوب التصنيف الوظيفة
+                                </mat-error>
+                            </mat-form-field>
+
+                            <div class="flex flex-row gap-2">
+                                <div class="w-1/2">
+                                    <mat-form-field appearance="fill" class="w-full  ">
+                                        <mat-label class="font-semibold">تاريخ البدء</mat-label>
+                                        <input
+                                            readonly
+                                            value="23-12-2022  6:00 ص"
+                                            [formControlName]="'start_date'" matInput
+                                            [placeholder]="'اكتب تاريخ البدء'"
+                                            [matDatepicker]="fromDatePicker"
+                                            maxlength="40">
+                                        <mat-error *ngIf="newJobForm.get('start_date').getError('required')">
+                                            مطلوب تاريخ البدء
+                                        </mat-error>
+                                        <mat-datepicker-toggle matSuffix [for]="fromDatePicker"></mat-datepicker-toggle>
+                                        <mat-datepicker #fromDatePicker></mat-datepicker>
+                                    </mat-form-field>
+                                </div>
+                                <div class="w-1/2">
+                                    <mat-form-field appearance="fill" class="w-full  ">
+                                        <mat-label class="font-semibold">تاريخ الانتهاء</mat-label>
+                                        <input
+                                            readonly
+                                            value="24-12-2022 5:00 ص"
+                                            [formControlName]="'end_date'" matInput
+                                            [placeholder]="'اكتب تاريخ الانتهاء'"
+                                            [matDatepicker]="toDatePicker"
+                                            maxlength="40">
+                                        <mat-error *ngIf="newJobForm.get('end_date').getError('required')">
+                                            مطلوب تاريخ الانتهاء
+                                        </mat-error>
+                                        <mat-datepicker-toggle matSuffix [for]="toDatePicker"></mat-datepicker-toggle>
+                                        <mat-datepicker #toDatePicker></mat-datepicker>
+                                    </mat-form-field>
+
+                                </div>
+
+                            </div>
+                            <mat-form-field class="w-full" appearance="fill">
+                                <mat-label class="font-semibold">{{'وصف الوظيفة'}}</mat-label>
+                                <textarea
+                                    readonly
+                                    value="تصنع كافة الأنابيب والموزعات في شركتنا من مواد عالية الجودة وعالية المقاومة من دون إضافات الألياف الطبيعية. "
+                                    [placeholder]="'اكتب وصف الوظيفة'"
+                                    rows="3"
+                                    maxlength="255"
+                                    matInput
+                                    [formControlName]="'description'"></textarea>
+                                <mat-error *ngIf="newJobForm.get('description').getError('required')">
+                                    مطلوب وصف الوظيفة
+                                </mat-error>
+                            </mat-form-field>
+                            <mat-form-field class="w-full" appearance="fill">
+                                <mat-label class="font-semibold">العامل المسؤول</mat-label>
+                                <mat-select [formControlName]="'assigned_to'">
+                                    <mat-option *ngFor="let member of ['saud']">
+                                        {{'saud' | titlecase}}
+                                    </mat-option>
+                                </mat-select>
+                                <mat-error *ngIf="newJobForm.get('assigned_to').getError('required')">
+                                    مطلوب العامل المسؤول
+                                </mat-error>
+                            </mat-form-field>
+
+                        </form>
+                    </div>
+                    <div class="sm:w-1/2 w-full">
+                        <form [formGroup]="newJobForm" class="flex-wrap">
+                            <mat-form-field appearance="fill" class="w-full  ">
+                                <mat-label class="font-semibold">اختر موقعا</mat-label>
+                                <input #mapSearchField [formControlName]="'location_address'" matInput
+                                       [placeholder]="'بحث في الخريطو'">
+                                <mat-error *ngIf="newJobForm.get('location_address').getError('required')">
+                                    مطلوب موقعا
+                                </mat-error>
+                            </mat-form-field>
+
+                            <google-map (mapClick)="addMarker($event)" (mapMousemove)="move($event)"
+                                        [center]="center"
+                                        [options]="options"
+                                        [zoom]="zoom" height="300px" width="100%">
+                                <map-marker [options]="markerOptions"
+                                            [position]="markerPosition"></map-marker>
+
+                                <map-info-window>{{"Info Window content" }}</map-info-window>
+
+                            </google-map>
+                            <mat-form-field appearance="fill" class="w-full mt-2">
+                                <mat-label class="font-semibold">نصف القطر</mat-label>
+                                <input
+                                    [formControlName]="'radius'" matInput
+                                    readonly
+                                    value="تنظيف"
+                                    [placeholder]="'أدخل نصف القطر'"
+                                >
+                                <mat-error *ngIf="newJobForm.get('radius').getError('required')">
+                                    مطلوب نصف القطر
+                                </mat-error>
+                            </mat-form-field>
+                        </form>
+                        <div class="flex flex-row w-full justify-end">
+                            <button
+                                mat-flat-button
+                                (click)="saveJob()"
+                                [color]="'primary'">
+                                <mat-icon
+                                    class="icon-size-5"
+                                    [svgIcon]="'heroicons_solid:check'"></mat-icon>
+                                <span class="mr-2">تحديث</span>
+                            </button>
+                        </div>
+                    </div>
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
