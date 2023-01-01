@@ -1,0 +1,115 @@
+<div class="flex flex-col flex-auto min-w-0">
+    <mat-drawer-container class="flex-grow" cdkScrollable>
+        <!--Mat Drawer-->
+        <mat-drawer mode="over" position="end" class="sm:w-100 w-full bg-primary"
+                    autoFocus="false"
+                    (openedChange)="showFiller=$event"
+                    [opened]="showFiller">
+            <div
+                class="flex flex-row w-full bg-primary-700 p-4 items-center">
+                <div class="flex-row text-lg text-white font-semibold text-center w-full">
+                    إضافة التصنيف
+                </div>
+                <div class="flex-row flex-grow">
+                    <button (click)="showFiller=false"
+                            mat-icon-button>
+                        <mat-icon
+                            class="icon-size-5 text-white"
+                            [svgIcon]="'heroicons_solid:x'"></mat-icon>
+                    </button>
+                </div>
+            </div>
+
+            <div class="flex flex-col w-full p-4">
+                <form [formGroup]="createCategoryForm">
+                    <mat-form-field appearance="fill" class="w-full">
+                        <mat-label class="text-white font-regular">اسم التصنيف</mat-label>
+                        <input matInput [formControlName]="'name'" placeholder="اكتب اسم الفئة">
+                    </mat-form-field>
+                </form>
+                <div class="flex flex-row w-full justify-end">
+                    <button
+                        mat-flat-button
+                        (click)="addCategory()">
+                        <mat-icon
+                            class="icon-size-5"
+                            [svgIcon]="'heroicons_solid:check'"></mat-icon>
+                        <span class="mr-2">حفظ</span>
+                    </button>
+                </div>
+            </div>
+        </mat-drawer>
+        <mat-drawer-content>
+
+            <!-- Header -->
+            <div class="bg-card">
+                <div class="flex flex-col w-full max-w-screen-xl mx-auto px-6 sm:px-8">
+                    <div class="flex flex-col sm:flex-row flex-auto sm:items-center min-w-0 my-8 sm:my-12">
+                        <!-- Avatar and name -->
+                        <div class="flex flex-grow items-center min-w-0">
+                            <div class="flex-0 w-16 h-16 rounded-full bg-primary flex items-center justify-center">
+                                <mat-icon svgIcon="heroicons_solid:cog" [ngStyle]="{'color': 'white'}"
+                                          class="icon-size-10"></mat-icon>
+                            </div>
+                            <div class="flex flex-col min-w-0 mr-4">
+                                <div
+                                    class="text-2xl md:text-5xl font-medium tracking-tight leading-7 md:leading-snug truncate">
+                                    التصنيفات
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Action -->
+                        <button
+                            mat-flat-button
+                            (click)="addCategory()"
+                            [color]="'primary'">
+                            <mat-icon
+                                class="icon-size-5"
+                                [svgIcon]="'heroicons_solid:plus'"></mat-icon>
+                            <span class="mr-2">أضافة</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Main -->
+            <div class="flex-auto border-t -mt-px pt-4 sm:pt-6 p-4 mx-8">
+                <div class="flex lg:flex-row flex-col gap-4 w-full">
+                    <div class="w-full p-6 bg-card shadow rounded-2xl overflow-auto">
+                        <div class="flex flex-row w-full items-center justify-evenly">
+                            <div class="w-full">
+                                <table mat-table [dataSource]="dataSource" class="demo-table">
+
+                                    <!-- Position Column -->
+                                    <ng-container matColumnDef="number">
+                                        <th mat-header-cell *matHeaderCellDef> فهرس</th>
+                                        <td mat-cell *matCellDef="let element; let i = index"> {{i+1}} </td>
+                                    </ng-container>
+
+                                    <!-- Position Column -->
+                                    <ng-container matColumnDef="name">
+                                        <th mat-header-cell *matHeaderCellDef> الأسم</th>
+                                        <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+                                    </ng-container>
+
+                                    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                                    <tr
+                                        mat-row
+                                        *matRowDef="let row; columns: displayedColumns;"
+                                    ></tr>
+                                </table>
+                                <div class="flex justify-end">
+                                    <mat-paginator #paginator [pageSizeOptions]="[5, 10, 20]"
+                                                   showFirstLastButtons
+                                                   aria-label="Select page of periodic elements">
+                                    </mat-paginator>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </mat-drawer-content>
+    </mat-drawer-container>
+</div>

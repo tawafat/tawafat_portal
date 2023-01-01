@@ -4,9 +4,9 @@ import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {Router} from "@angular/router";
 
 @Component({
-    selector: 'app-edit-job',
-    templateUrl: './edit-job.component.html',
-    styleUrls: ['./edit-job.component.scss']
+  selector: 'app-edit-job',
+  templateUrl: './edit-job.component.html',
+  styleUrls: ['./edit-job.component.scss']
 })
 export class EditJobComponent {
     @ViewChild('mapSearchField') searchField: ElementRef;
@@ -28,6 +28,7 @@ export class EditJobComponent {
     constructor(private _router: Router,
                 private _formBuilder: FormBuilder,
                 private geocoder: MapGeocoder,
+
     ) {
     }
 

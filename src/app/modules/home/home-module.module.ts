@@ -15,7 +15,6 @@ import {MatTabsModule} from "@angular/material/tabs";
 import {NgApexchartsModule} from "ng-apexcharts";
 import {TranslocoModule} from "@ngneat/transloco";
 import {SharedModule} from "../../shared/shared.module";
-import {OtherComponentsModule} from "../admin/ui/other-components/other-components.module";
 
 const routes: Routes = [
     {
