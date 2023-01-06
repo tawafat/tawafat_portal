@@ -1,38 +1,77 @@
 import {Component, ElementRef, ViewChild} from '@angular/core';
 import {GoogleMap, MapGeocoder} from "@angular/google-maps";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
-import {Router} from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
+import {Service} from "../../../service/service";
+import {Category, Employee, Job, LocationDetails} from "../../../models/model";
+import moment from "moment";
+import MapTypeId = google.maps.MapTypeId;
+import {ToastrService} from "ngx-toastr";
 
 @Component({
-  selector: 'app-edit-job',
-  templateUrl: './edit-job.component.html',
-  styleUrls: ['./edit-job.component.scss']
+    selector: 'app-edit-job',
+    templateUrl: './edit-job.component.html',
+    styleUrls: ['./edit-job.component.scss']
 })
 export class EditJobComponent {
     @ViewChild('mapSearchField') searchField: ElementRef;
     @ViewChild(GoogleMap) map: GoogleMap;
-    zoom: number = 12;
+    zoom: number = 17;
     center: google.maps.LatLngLiteral;
     display: google.maps.LatLngLiteral;
     markerOptions: google.maps.MarkerOptions = {draggable: true};
     markerPosition: google.maps.LatLngLiteral = {lat: 0, lng: 0};
     options: google.maps.MapOptions = {
         center: {lat: 24.7419037, lng: 46.6437651},
-        zoom: 4
+        zoom: 17,
+        mapTypeId: MapTypeId.TERRAIN,
+        streetViewControl: false,
 
     };
-
+    minDate: string | Date = moment(new Date()).format('YYYY-MM-DD hh:mm a');
     editJobForm: FormGroup;
     editMapForm: FormGroup;
+    jobId: string = '';
+    jobDetails: Job = {} as Job;
+    categories: Category[] = [];
+    employees: Employee[] = [];
+    circleOptions: google.maps.CircleOptions = {
+        center: {lat: 24.7419037, lng: 46.6437651},
+        radius: 50,
+        visible: true,
+        strokeColor: '#a17a3f',
+        fillColor: '#a17a3f',
+    };
+    radius: number = 50;
+    private location: LocationDetails = {} as LocationDetails;
+    private category: Category = {} as Category;
+    private employee: Employee = {} as Employee;
 
     constructor(private _router: Router,
                 private _formBuilder: FormBuilder,
                 private geocoder: MapGeocoder,
-
+                private _service: Service,
+                private _route: ActivatedRoute,
+                private _toaster: ToastrService,
     ) {
     }
 
     ngOnInit(): void {
+        console.log('minDate', this.minDate);
+        this.initForm();
+        this.getCategories();
+        this.getEmployees();
+        this._route.url.subscribe(() => {
+            const routeSnapshot = this._route.snapshot;
+            this.jobId = routeSnapshot.params.jobId;
+        });
+        this._service.getJobById_API(this.jobId).subscribe((response) => {
+            this.jobDetails = response;
+            this.populateForm();
+        })
+    }
+
+    initForm(): void {
         this.editJobForm = this._formBuilder.group({
             name: ['', Validators.required],
             category: ['', Validators.required],
@@ -40,7 +79,8 @@ export class EditJobComponent {
             end_date: ['', Validators.required],
             description: ['', Validators.required],
             assigned_to: ['', Validators.required],
-
+            location_lat: ['', Validators.required],
+            location_lng: ['', Validators.required],
         });
         this.editMapForm = this._formBuilder.group({
             location_address: ['', Validators.required],
@@ -71,34 +111,74 @@ export class EditJobComponent {
 
                     }
                     this.map.fitBounds(bounds);
+
                     if (place.geometry.location) {
                         this.addMarker({latLng: place.geometry.location});
+                        this.circleOptions = {
+                            center: {lat: this.markerPosition.lat, lng: this.markerPosition.lng},
+                            radius: this.radius,
+                            visible: true,
+                            strokeColor: '#a17a3f',
+                            fillColor: '#a17a3f',
+                        };
+                        debugger
+                        this.map.zoom = 17;
+                        this.zoom = 17;
+
+                        this.editMapForm.get('location_lat').setValue(place.geometry.location.lat());
+                        this.editMapForm.get('location_lng').setValue(place.geometry.location.lng());
                     }
 
                 });
             });
 
-            this.getLocation();
         }, 100);
 
     }
 
-    getLocation(): any {
-        if (navigator.geolocation) {
-            navigator.geolocation.getCurrentPosition((position: any) => {
-                    if (position) {
-                        const lat = position.coords.latitude;
-                        const lng = position.coords.longitude;
-                        this.center = {lat: lat, lng: lng};
-                        this.markerPosition = {lat: lat, lng: lng};
-                    }
+    populateForm(): void {
+        this.editJobForm.get('name').setValue(this.jobDetails.name);
+        this.editJobForm.get('category').setValue(this.jobDetails.category.id);
+        this.editJobForm.get('start_date').setValue(this.jobDetails.start_date);
+        this.editJobForm.get('end_date').setValue(this.jobDetails.end_date);
+        this.editJobForm.get('description').setValue(this.jobDetails.description);
+        this.editJobForm.get('assigned_to').setValue(this.jobDetails.assigned_to.id);
+        this.editMapForm.get('location_address').setValue(this.jobDetails.location.address);
+        this.editJobForm.get('location_lat').setValue(this.jobDetails.location.lat);
+        this.editJobForm.get('location_lng').setValue(this.jobDetails.location.long);
+        //Todo: add radius from api here
+        this.editMapForm.get('radius').setValue(50);
+        const lat = parseFloat(this.editJobForm.get('location_lat').value);
+        const lng = parseFloat(this.editJobForm.get('location_lng').value)
+        this.markerPosition = {lat: lat, lng: lng};
+        this.center = {lat: lat, lng: lng};
+        this.circleOptions = {
+            center: {lat: lat, lng: lng},
+            radius: this.radius,
+            visible: true,
+            strokeColor: '#a17a3f',
+            fillColor: '#a17a3f',
+        };
+        this.category = this.jobDetails.category;
+        this.employee = this.jobDetails.assigned_to;
 
-                },
-                (error: any) => (error));
-        } else {
-            alert('Geolocation is not supported by this browser.');
-        }
+        console.log('editForm', this.editJobForm);
+    }
 
+    getCategories(): any {
+        this._service.getCategories_API().subscribe((response) => {
+            if (response) {
+                this.categories = response;
+            }
+        })
+    }
+
+    getEmployees(): any {
+        this._service.getEmployees_API().subscribe((response) => {
+            if (response) {
+                this.employees = response;
+            }
+        })
     }
 
     backToJobs(): void {
@@ -107,17 +187,24 @@ export class EditJobComponent {
 
     addMarker(event: google.maps.MapMouseEvent | { latLng: google.maps.LatLng }) {
         this.markerPosition = event.latLng.toJSON();
-        this.editJobForm.controls.location_lat.setValue(this.markerPosition.lat);
-        this.editJobForm.controls.location_lng.setValue(this.markerPosition.lng);
+        this.editMapForm.controls.location_lat.setValue(this.markerPosition.lat);
+        this.editMapForm.controls.location_lng.setValue(this.markerPosition.lng);
+        this.circleOptions = {
+            center: {lat: this.markerPosition.lat, lng: this.markerPosition.lng},
+            radius: this.radius,
+            visible: true,
+            strokeColor: '#a17a3f',
+            fillColor: '#a17a3f',
+        };
 
 
         this.geocoder.geocode({
             location: {lat: this.markerPosition.lat, lng: this.markerPosition.lng}
         }).subscribe(({results}) => {
             if (results[1]) {
-                this.editJobForm.controls.location_address.setValue(results[1].formatted_address);
+                this.editMapForm.controls.location_address.setValue(results[1].formatted_address);
             } else if (results[0]) {
-                this.editJobForm.controls.location_address.setValue(results[0].formatted_address);
+                this.editMapForm.controls.location_address.setValue(results[0].formatted_address);
             }
         });
 
@@ -128,7 +215,90 @@ export class EditJobComponent {
         this.display = event.latLng.toJSON();
     }
 
-    saveJob(): void {
+    formatDate(): void {
+        const start_date = this.editJobForm.get('start_date').value;
+        this.editJobForm.get('start_date').setValue(moment(start_date).format('YYYY-MM-DD hh:mm:ss'));
+        const end_date = this.editJobForm.get('end_date').value;
+        this.editJobForm.get('end_date').setValue(moment(end_date).format('YYYY-MM-DD hh:mm:ss'));
+    }
 
+    setLocation() {
+        debugger
+        this.location.lat = this.markerPosition.lat.toString();
+        this.location.long = this.markerPosition.lng.toString();
+        this.location.address = this.editMapForm.get('location_address').value;
+    }
+
+    saveJob(): void {
+        this.formatDate();
+        this.setLocation();
+        const body: Job = {
+            category: this.category,
+            assigned_to: this.employee,
+            name: this.editJobForm.get('name').value,
+            assigned_to_id: this.employee.id,
+            category_slug: this.category.slug,
+            location: this.location,
+            end_date: this.editJobForm.get('end_date').value,
+            start_date: this.editJobForm.get('start_date').value,
+            status: this.jobDetails?.status || 'inactive',
+            description: this.editJobForm.get('description').value,
+
+        }
+        this._service.updateJob_API(this.jobId, body).subscribe((response) => {
+            if (response) {
+                this._toaster.success('تمت إضافة المهام بنجاح');
+                this.reset();
+            }
+        }, error => {
+            this._toaster.warning(error.error.message);
+        });
+
+
+    }
+
+    setCategory(category: Category) {
+        this.category = category;
+    }
+
+    setEmployee(employee: Employee) {
+        this.employee = employee;
+    }
+
+    updateRadius() {
+        this.radius = this.editMapForm.get('radius').value;
+        this.circleOptions = {
+            center: {lat: this.markerPosition.lat, lng: this.markerPosition.lng},
+            radius: this.radius,
+            visible: true,
+            strokeColor: '#a17a3f',
+            fillColor: '#a17a3f',
+        };
+        console.log('radius', this.radius);
+    }
+
+    setMinDate(status: 'Open' | 'Closed'): void {
+        if (status === 'Open') {
+            this.minDate = new Date();
+        }
+        if (status === 'Closed') {
+            this.minDate = this.editJobForm.get('start_date').value;
+        }
+    }
+
+    private reset(): void {
+        this.editJobForm.reset();
+        this.editMapForm.reset();
+        this.initForm();
+        this.getCategories();
+        this.getEmployees();
+        this._route.url.subscribe(() => {
+            const routeSnapshot = this._route.snapshot;
+            this.jobId = routeSnapshot.params.jobId;
+        });
+        this._service.getJobById_API(this.jobId).subscribe((response) => {
+            this.jobDetails = response;
+            this.populateForm();
+        })
     }
 }

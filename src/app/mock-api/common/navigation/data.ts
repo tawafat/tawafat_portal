@@ -28,12 +28,12 @@ export const compactNavigation: FuseNavigationItem[] =
             link: '/employees'
         },
         {
-            id: 'settings',
+            id: 'categories',
             title: 'التصنيفات',
             tooltip: 'التصنيفات',
             type: 'basic',
             icon: 'mat_solid:category',
-            link: '/settings'
+            link: '/categories'
         },
     ];
 export const defaultNavigation: FuseNavigationItem[] = compactNavigation;

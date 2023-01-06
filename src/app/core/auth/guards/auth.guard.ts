@@ -45,10 +45,10 @@ export class AuthGuard implements CanMatch
      */
     private _check(segments: UrlSegment[]): Observable<boolean | UrlTree>
     {
+
         // Check the authentication status
         return this._authService.check().pipe(
             switchMap((authenticated) => {
-
                 // If the user is not authenticated...
                 if ( !authenticated )
                 {

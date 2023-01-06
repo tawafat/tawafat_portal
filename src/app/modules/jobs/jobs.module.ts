@@ -7,10 +7,10 @@ import {MatButtonModule} from "@angular/material/button";
 import {MatPaginatorModule} from "@angular/material/paginator";
 import {MatTableModule} from "@angular/material/table";
 import { CreateJobComponent } from './create-job/create-job.component';
-import {ReactiveFormsModule} from "@angular/forms";
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {MatFormField, MatFormFieldModule} from "@angular/material/form-field";
 import {MatDividerModule} from "@angular/material/divider";
-import {GoogleMapsModule} from "@angular/google-maps";
+import {GoogleMap, GoogleMapsModule} from "@angular/google-maps";
 import { MatInputModule } from '@angular/material/input';
 import {MatDatepickerModule} from "@angular/material/datepicker";
 import {MatNativeDateModule} from "@angular/material/core";
@@ -18,6 +18,15 @@ import {MatSelectModule} from "@angular/material/select";
 import { JobDetailsComponent } from './job-details/job-details.component';
 import {MatTooltipModule} from "@angular/material/tooltip";
 import { EditJobComponent } from './job-details/edit-job/edit-job.component';
+import {
+    NgxMatDatetimePickerModule,
+    NgxMatNativeDateModule,
+    NgxMatTimepickerModule
+} from "@angular-material-components/datetime-picker";
+import {MomentDateTimeModule} from "ng-pick-datetime/date-time/adapter/moment-adapter/moment-date-time.module";
+import {MomentDateTimeAdapter} from "ng-pick-datetime/date-time/adapter/moment-adapter/moment-date-time-adapter.class";
+import {NgxMatMomentModule} from "@angular-material-components/moment-adapter";
+import {SharedModule} from "../../shared/shared.module";
 
 const routes: Routes = [
     {
@@ -29,11 +38,11 @@ const routes: Routes = [
         component: CreateJobComponent,
     },
     {
-        path     : 'details',
+        path     : 'details/:jobId' ,
         component: JobDetailsComponent,
     },
     {
-        path     : 'details/update',
+        path     : 'details/update/:jobId',
         component: EditJobComponent,
     },
 
@@ -41,7 +50,7 @@ const routes: Routes = [
 
 @NgModule({
     declarations: [JobsComponent, CreateJobComponent, JobDetailsComponent,EditJobComponent],
-    providers: [MatDatepickerModule],
+    providers: [MatDatepickerModule, GoogleMap],
     imports: [
         RouterModule.forChild(routes),
         CommonModule,
@@ -57,7 +66,16 @@ const routes: Routes = [
         MatDatepickerModule,
         MatNativeDateModule,
         MatSelectModule,
-        MatTooltipModule
+        MatTooltipModule,
+        MatDatepickerModule,
+        MatInputModule,
+        NgxMatTimepickerModule,
+        FormsModule,
+        ReactiveFormsModule,
+        MatButtonModule,
+        NgxMatDatetimePickerModule,
+        NgxMatMomentModule,
+        SharedModule
     ]
 })
 export class JobsModule {

@@ -4,6 +4,7 @@ import { BooleanInput } from '@angular/cdk/coercion';
 import { Subject, takeUntil } from 'rxjs';
 import { User } from 'app/core/user/user.types';
 import { UserService } from 'app/core/user/user.service';
+import {Employee} from "../../../modules/models/model";
 
 @Component({
     selector       : 'user',
@@ -19,7 +20,7 @@ export class UserComponent implements OnInit, OnDestroy
     /* eslint-enable @typescript-eslint/naming-convention */
 
     @Input() showAvatar: boolean = true;
-    user: User;
+    user: Employee = {} as Employee;
 
     private _unsubscribeAll: Subject<any> = new Subject<any>();
 
@@ -32,6 +33,7 @@ export class UserComponent implements OnInit, OnDestroy
         private _userService: UserService
     )
     {
+        this.user = JSON.parse(localStorage.getItem('user'));
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -46,9 +48,8 @@ export class UserComponent implements OnInit, OnDestroy
         // Subscribe to user changes
         this._userService.user$
             .pipe(takeUntil(this._unsubscribeAll))
-            .subscribe((user: User) => {
-                this.user = user;
-
+            .subscribe(() => {
+                this.user = JSON.parse(localStorage.getItem('user'));
                 // Mark for check
                 this._changeDetectorRef.markForCheck();
             });
@@ -73,26 +74,13 @@ export class UserComponent implements OnInit, OnDestroy
      *
      * @param status
      */
-    updateUserStatus(status: string): void
-    {
-        // Return if user is not available
-        if ( !this.user )
-        {
-            return;
-        }
-
-        // Update the user
-        this._userService.update({
-            ...this.user,
-            status
-        }).subscribe();
-    }
 
     /**
      * Sign out
      */
     signOut(): void
     {
+        localStorage.removeItem('user');
         this._router.navigate(['/sign-out']);
     }
 

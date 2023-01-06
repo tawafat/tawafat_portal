@@ -47,10 +47,12 @@
 
                             <mat-form-field appearance="fill" class="w-full  ">
                                 <mat-label class="font-semibold">التصنيف</mat-label>
-                                <input
-                                    [formControlName]="'category'" matInput
-                                    [placeholder]="'اكتب التصنيف الوظيفة'"
-                                    maxlength="40">
+                                <mat-select [formControlName]="'category'">
+                                    <mat-option *ngFor="let category of categories" [value]="category"
+                                                (click)="setCategory(category)">
+                                        {{category.name |titlecase}}
+                                    </mat-option>
+                                </mat-select>
                                 <mat-error *ngIf="newJobForm.get('category').getError('required')">
                                     مطلوب التصنيف الوظيفة
                                 </mat-error>
@@ -58,34 +60,34 @@
 
                             <div class="flex flex-row gap-2">
                                 <div class="w-1/2">
-                                    <mat-form-field appearance="fill" class="w-full  ">
+                                    <mat-form-field appearance="fill" class="w-full">
                                         <mat-label class="font-semibold">تاريخ البدء</mat-label>
-                                        <input
-                                            [formControlName]="'start_date'" matInput
-                                            [placeholder]="'اكتب تاريخ البدء'"
-                                            [matDatepicker]="fromDatePicker"
-                                            maxlength="40">
+                                        <input matInput [min]="minDate" [ngxMatDatetimePicker]="pickerStart"
+                                               [placeholder]="'اكتب تاريخ البدء'" [formControlName]="'start_date'">
+                                        <mat-datepicker-toggle matSuffix [for]="pickerStart"></mat-datepicker-toggle>
+                                        <ngx-mat-datetime-picker #pickerStart enableMeridian="true"
+                                                                 (closed)="setMinDate()">
+                                        </ngx-mat-datetime-picker>
                                         <mat-error *ngIf="newJobForm.get('start_date').getError('required')">
                                             مطلوب تاريخ البدء
                                         </mat-error>
-                                        <mat-datepicker-toggle matSuffix [for]="fromDatePicker"></mat-datepicker-toggle>
-                                        <mat-datepicker #fromDatePicker></mat-datepicker>
+
                                     </mat-form-field>
+
                                 </div>
                                 <div class="w-1/2">
-                                    <mat-form-field appearance="fill" class="w-full  ">
+                                    <mat-form-field appearance="fill" class="w-full">
                                         <mat-label class="font-semibold">تاريخ الانتهاء</mat-label>
-                                        <input
-                                            [formControlName]="'end_date'" matInput
-                                            [placeholder]="'اكتب تاريخ الانتهاء'"
-                                            [matDatepicker]="toDatePicker"
-                                            maxlength="40">
+                                        <input matInput [min]="minDate" [ngxMatDatetimePicker]="pickerEnd"
+                                               [placeholder]="'اكتب تاريخ الانتهاء'" [formControlName]="'end_date'">
+                                        <mat-datepicker-toggle matSuffix [for]="pickerEnd"></mat-datepicker-toggle>
+                                        <ngx-mat-datetime-picker #pickerEnd enableMeridian="true">
+                                        </ngx-mat-datetime-picker>
                                         <mat-error *ngIf="newJobForm.get('end_date').getError('required')">
                                             مطلوب تاريخ الانتهاء
                                         </mat-error>
-                                        <mat-datepicker-toggle matSuffix [for]="toDatePicker"></mat-datepicker-toggle>
-                                        <mat-datepicker #toDatePicker></mat-datepicker>
                                     </mat-form-field>
+
 
                                 </div>
 
@@ -105,8 +107,9 @@
                             <mat-form-field class="w-full" appearance="fill">
                                 <mat-label class="font-semibold">العامل المسؤول</mat-label>
                                 <mat-select [formControlName]="'assigned_to'">
-                                    <mat-option *ngFor="let member of ['saud']">
-                                        {{'saud' | titlecase}}
+                                    <mat-option *ngFor="let employee of employees" [value]="employee.id"
+                                                (click)="setEmployee(employee)">
+                                        {{employee.name |titlecase}} {{ ' (' + employee.email + ')'}}
                                     </mat-option>
                                 </mat-select>
                                 <mat-error *ngIf="newJobForm.get('assigned_to').getError('required')">
@@ -131,18 +134,19 @@
                                         [center]="center"
                                         [options]="options"
                                         [zoom]="zoom" height="300px" width="100%">
+                                <map-circle
+
+                                    [options]="circleOptions"></map-circle>
                                 <map-marker [options]="markerOptions"
                                             [position]="markerPosition"></map-marker>
-
                                 <map-info-window>{{"Info Window content" }}</map-info-window>
 
                             </google-map>
                             <mat-form-field appearance="fill" class="w-full mt-2">
                                 <mat-label class="font-semibold">نصف القطر</mat-label>
-                                <input
-                                    [formControlName]="'radius'" matInput
-                                    [placeholder]="'أدخل نصف القطر'"
-                                    maxlength="40">
+                                <input (input)="updateRadius($event)" type="number"
+                                       [formControlName]="'radius'" matInput
+                                       [placeholder]="'أدخل نصف القطر'">
                                 <mat-error *ngIf="newJobForm.get('radius').getError('required')">
                                     مطلوب نصف القطر
                                 </mat-error>
@@ -151,6 +155,7 @@
                         <div class="flex flex-row w-full justify-end">
                             <button
                                 mat-flat-button
+                                [disabled]="newJobForm.invalid"
                                 (click)="saveJob()"
                                 [color]="'primary'">
                                 <mat-icon

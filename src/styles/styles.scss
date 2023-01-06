@@ -2,6 +2,10 @@
 /*  @ Import/write your custom styles here.
 /*  @ Styles from this file will override 'vendors.scss' and Fuse's base styles.
 /* ----------------------------------------------------------------------------------------------------- */
+
+// regular style toast
+@import 'ngx-toastr/toastr';
+@import "~ng-pick-datetime/assets/style/picker.min.css";
 ::-webkit-scrollbar {
     width: 5px;
     //height: 5px;
@@ -25,3 +29,30 @@
     }
 
 }
+
+.mat-mdc-form-field-required-marker{
+    @apply text-red-400;
+}
+
+.mat-mdc-form-field-error{
+    @apply text-red-400 font-bold;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+/* Firefox */
+input[type=number] {
+    -moz-appearance: textfield;
+}
+
+::ng-deep{
+    .mat-datepicker-content{
+        direction: ltr !important;
+    }
+
+}
+

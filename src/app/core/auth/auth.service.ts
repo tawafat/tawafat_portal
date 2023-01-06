@@ -3,6 +3,8 @@ import { HttpClient } from '@angular/common/http';
 import { catchError, Observable, of, switchMap, throwError } from 'rxjs';
 import { AuthUtils } from 'app/core/auth/auth.utils';
 import { UserService } from 'app/core/user/user.service';
+import {environment} from "../../../environments/environment";
+import {Password} from "../../modules/models/model";
 
 @Injectable()
 export class AuthService
@@ -26,14 +28,14 @@ export class AuthService
     /**
      * Setter & getter for access token
      */
-    set accessToken(token: string)
+    set token(token: string)
     {
-        localStorage.setItem('accessToken', token);
+        localStorage.setItem('token', token);
     }
 
-    get accessToken(): string
+    get token(): string
     {
-        return localStorage.getItem('accessToken') ?? '';
+        return localStorage.getItem('token') ?? '';
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -55,9 +57,14 @@ export class AuthService
      *
      * @param password
      */
+    changePassword(body: Password): Observable<any>
+    {
+        return this._httpClient.post(environment.api_base_url + '/change-password', body);
+    }
+
     resetPassword(password: string): Observable<any>
     {
-        return this._httpClient.post('api/auth/reset-password', password);
+        return this._httpClient.post(environment.api_base_url + '/change-password', password);
     }
 
     /**
@@ -73,11 +80,11 @@ export class AuthService
             return throwError('User is already logged in.');
         }
 
-        return this._httpClient.post('https://tawafat.xmotion-sa.com/api/login', credentials).pipe(
+        return this._httpClient.post( environment.api_base_url + '/login', credentials).pipe(
             switchMap((response: any) => {
 
                 // Store the access token in the local storage
-                this.accessToken = response.token;
+                this.token = response.token;
 
                 // Set the authenticated flag to true
                 this._authenticated = true;
@@ -98,7 +105,7 @@ export class AuthService
     {
         // Sign in using the token
         return this._httpClient.post('api/auth/sign-in-with-token', {
-            accessToken: this.accessToken
+            token: this.token
         }).pipe(
             catchError(() =>
 
@@ -114,9 +121,9 @@ export class AuthService
                 // in using the token, you should generate a new one on the server
                 // side and attach it to the response object. Then the following
                 // piece of code can replace the token with the refreshed one.
-                if ( response.accessToken )
+                if ( response.token )
                 {
-                    this.accessToken = response.accessToken;
+                    this.token = response.token;
                 }
 
                 // Set the authenticated flag to true
@@ -137,7 +144,7 @@ export class AuthService
     signOut(): Observable<any>
     {
         // Remove the access token from the local storage
-        localStorage.removeItem('accessToken');
+        localStorage.removeItem('token');
 
         // Set the authenticated flag to false
         this._authenticated = false;
@@ -171,6 +178,10 @@ export class AuthService
      */
     check(): Observable<boolean>
     {
+        if(this.token){
+            this._authenticated = true;
+        }
+        console.log('check', this._authenticated);
         // Check if the user is logged in
         if ( this._authenticated )
         {
@@ -178,13 +189,13 @@ export class AuthService
         }
 
         // Check the access token availability
-        if ( !this.accessToken )
+        if ( !this.token )
         {
             return of(false);
         }
 
         // Check the access token expire date
-        if ( AuthUtils.isTokenExpired(this.accessToken) )
+        if ( AuthUtils.isTokenExpired(this.token) )
         {
             return of(false);
         }

@@ -72,12 +72,12 @@ export const appRoutes: Route[] = [
             {path: 'home', loadChildren: () => import('app/modules/home/home-module.module').then(m => m.HomeModule)},
             {path: 'jobs', loadChildren: () => import('app/modules/jobs/jobs.module').then(m => m.JobsModule)},
             {path: 'employees', loadChildren: () => import('app/modules/employees/employees.module').then(m => m.EmployeesModule)},
-            {path: 'settings', loadChildren: () => import('app/modules/settings/settings.module').then(m => m.SettingsModule)},
+            {path: 'categories', loadChildren: () => import('app/modules/settings/settings.module').then(m => m.SettingsModule)},
             {path: 'change-password', loadChildren: () => import('app/modules/change-password/change-password.module').then(m => m.ChangePasswordModule)},
 
             // 404 & Catch all
-            {path: '404-not-found', pathMatch: 'full', loadChildren: () => import('app/modules/admin/pages/error/error-404/error-404.module').then(m => m.Error404Module)},
-            {path: '**', redirectTo: '404-not-found'}
+           /* {path: '404-not-found', pathMatch: 'full', loadChildren: () => import('app/modules/admin/pages/error/error-404/error-404.module').then(m => m.Error404Module)},
+            {path: '**', redirectTo: '404-not-found'}*/
         ]
     }
 ];

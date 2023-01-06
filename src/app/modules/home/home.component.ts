@@ -6,6 +6,8 @@ import {
     ApexXAxis,
     ApexTitleSubtitle, ApexDataLabels, ApexLegend, ApexPlotOptions, ApexStroke, ApexOptions
 } from "ng-apexcharts";
+import {UserService} from "../../core/user/user.service";
+import {User} from "../../core/user/user.types";
 
 
 @Component({
@@ -15,10 +17,13 @@ import {
 })
 export class HomeComponent {
     @ViewChild("chart") chart: ChartComponent;
+
+    public user: User;
     public chartOptions: Partial<ApexOptions>;
     public pieChartOptions: Partial<ApexOptions>;
 
     constructor() {
+        this.user = JSON.parse(localStorage.getItem('user'));
         this.chartOptions = {
             series: [
                 {

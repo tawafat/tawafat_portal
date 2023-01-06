@@ -30,7 +30,7 @@ const themes = {
         },
         warn     : {
             ...colors.red,
-            DEFAULT: colors.red[600]
+            DEFAULT: colors.red[400]
         },
         'on-warn': {
             500: colors.red['50']

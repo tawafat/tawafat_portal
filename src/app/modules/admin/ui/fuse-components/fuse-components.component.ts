@@ -115,7 +115,7 @@ export class FuseComponentsComponent implements OnInit, OnDestroy
             },
             {
                 id      : 'fuse-components.services',
-                title   : 'Services',
+                title   : 'service',
                 type    : 'group',
                 children: [
                     {

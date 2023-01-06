@@ -159,7 +159,7 @@ export class AuthUtils
             return null;
         }
 
-        // Split the token
+       /* // Split the token
         const parts = token.split('.');
 
         if ( parts.length !== 3 )
@@ -174,8 +174,8 @@ export class AuthUtils
         {
             throw new Error('Cannot decode the token.');
         }
-
-        return JSON.parse(decoded);
+*/
+        return (token);
     }
 
     /**

@@ -2,66 +2,8 @@ import {Component, OnInit, ViewChild} from '@angular/core';
 import {MatPaginator} from '@angular/material/paginator';
 import {MatTableDataSource} from "@angular/material/table";
 import {Router} from "@angular/router";
-
-export interface PeriodicElement {
-    status: string;
-    name: string;
-    category: string;
-    startDate: string;
-    startTime: string;
-    endDate: string;
-    assignedBy: string;
-    complain: boolean;
-}
-
-
-const ELEMENT_DATA: PeriodicElement[] = [
-    {
-        status: 'completed',
-        name: 'تنظيف أنابيب الهواء',
-        category: 'تنظيف',
-        startDate: '25/12/2022 ',
-        startTime: '3:10 ص',
-        endDate: '25/12/2022',
-        assignedBy: 'ذكرية عبد الله',
-        complain: true
-    },
-    {
-        status: 'inactive',
-        name: 'تنظيف أنابيب الهواء',
-        category: 'تنظيف',
-        startDate: '25/12/2022 ',
-        startTime: '3:10 ص',
-        endDate: '25/12/2022',
-        assignedBy: 'ذكرية عبد الله',
-        complain: true,
-
-    },
-    {
-        status: 'missed',
-        name: 'تنظيف أنابيب الهواء',
-        category: 'تنظيف',
-        startDate: '25/12/2022 ',
-        startTime: '3:10 ص',
-        endDate: '25/12/2022',
-        assignedBy: 'ذكرية عبد الله',
-        complain: false,
-    },
-    {
-        status: 'late',
-        name: 'تنظيف أنابيب الهواء',
-        category: 'تنظيف',
-        startDate: '25/12/2022 ',
-        startTime: '3:10 ص',
-        endDate: '25/12/2022',
-        assignedBy: 'ذكرية عبد الله',
-        complain: true,
-
-    },
-
-
-];
-
+import {Service} from "../service/service";
+import {Job} from "../models/model";
 
 @Component({
     selector: 'app-jobs',
@@ -72,13 +14,14 @@ const ELEMENT_DATA: PeriodicElement[] = [
 export class JobsComponent implements OnInit {
     @ViewChild('paginator') paginator: MatPaginator;
     dataSource: MatTableDataSource<any>;
-    displayedColumns: string[] = ['status', 'name', 'category', 'startDate', 'startTime', 'endDate', 'assignedBy', 'complain'];
+    jobs: Job[] = [];
+    displayedColumns: string[] = ['status', 'name', 'category', 'startDate', 'endDate', 'assignedBy', 'complain'];
 
-    constructor(private _router: Router) {
+    constructor(private _router: Router, private _service:Service) {
     }
 
     ngOnInit(): void {
-        this.dataSource = new MatTableDataSource(ELEMENT_DATA);
+        this.getJob();
     }
 
     ngAfterViewInit() {
@@ -96,7 +39,17 @@ export class JobsComponent implements OnInit {
         this._router.navigate(['jobs/create']);
     }
 
-    goToJob(): void {
-        this._router.navigate(['jobs/details']);
+    getJob(): void{
+        this._service.getJobs_API().subscribe((response) => {
+            if (response){
+                this.jobs = response;
+                console.log('jobs', this.jobs);
+                this.dataSource = new MatTableDataSource(this.jobs);
+            }
+        })
+    }
+
+    goToJob(job): void {
+        this._router.navigate(['jobs/details/' + job.id]);
     }
 }

@@ -5,6 +5,8 @@ import { fuseAnimations } from '@fuse/animations';
 import { FuseValidators } from '@fuse/validators';
 import { FuseAlertType } from '@fuse/components/alert';
 import { AuthService } from 'app/core/auth/auth.service';
+import {ToastrService} from "ngx-toastr";
+import {Router} from "@angular/router";
 
 @Component({
     selector     : 'change-password',
@@ -20,7 +22,7 @@ export class ChangePasswordComponent implements OnInit
         type   : 'success',
         message: ''
     };
-    resetPasswordForm: UntypedFormGroup;
+    changePasswordForm: UntypedFormGroup;
     showAlert: boolean = false;
 
     /**
@@ -28,7 +30,9 @@ export class ChangePasswordComponent implements OnInit
      */
     constructor(
         private _authService: AuthService,
-        private _formBuilder: UntypedFormBuilder
+        private _formBuilder: UntypedFormBuilder,
+        private _toaster: ToastrService,
+        private _router: Router,
     )
     {
     }
@@ -43,7 +47,8 @@ export class ChangePasswordComponent implements OnInit
     ngOnInit(): void
     {
         // Create the form
-        this.resetPasswordForm = this._formBuilder.group({
+        this.changePasswordForm = this._formBuilder.group({
+                oldPassword: ['',Validators.required],
                 password       : ['', Validators.required],
                 passwordConfirm: ['', Validators.required]
             },
@@ -60,27 +65,31 @@ export class ChangePasswordComponent implements OnInit
     /**
      * Reset password
      */
-    resetPassword(): void
+    changePassword(): void
     {
         // Return if the form is invalid
-        if ( this.resetPasswordForm.invalid )
+        if ( this.changePasswordForm.invalid )
         {
             return;
         }
 
         // Disable the form
-        this.resetPasswordForm.disable();
+        this.changePasswordForm.disable();
 
         // Hide the alert
         this.showAlert = false;
 
         // Send the request to the server
-        this._authService.resetPassword(this.resetPasswordForm.get('password').value)
+        this._authService.changePassword({
+            old_password: this.changePasswordForm.get('oldPassword').value,
+            password: this.changePasswordForm.get('password').value,
+            password_confirmation: this.changePasswordForm.get('passwordConfirm').value
+        })
             .pipe(
                 finalize(() => {
 
                     // Re-enable the form
-                    this.resetPasswordForm.enable();
+                    this.changePasswordForm.enable();
 
                     // Reset the form
                     this.resetPasswordNgForm.resetForm();
@@ -93,17 +102,15 @@ export class ChangePasswordComponent implements OnInit
                 (response) => {
 
                     // Set the alert
-                    this.alert = {
-                        type   : 'success',
-                        message: 'Your password has been reset.'
-                    };
+                    this._toaster.success('تم إعادة تعيين كلمة المرور الخاصة بك');
+                    this._router.navigate(['/home']);
                 },
                 (response) => {
 
                     // Set the alert
                     this.alert = {
                         type   : 'error',
-                        message: 'Something went wrong, please try again.'
+                        message: 'حدث خطأ ما. أعد المحاولة من فضلك'
                     };
                 }
             );

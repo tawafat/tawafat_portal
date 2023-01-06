@@ -17,6 +17,7 @@ import { FuseConfirmationConfig } from '@fuse/services/confirmation/confirmation
 
                     .mat-mdc-dialog-surface {
                         padding: 0 !important;
+                        
                     }
                 }
             }
