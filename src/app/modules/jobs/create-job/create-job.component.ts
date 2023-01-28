@@ -173,9 +173,15 @@ export class CreateJobComponent {
         this._service.getEmployees_API().subscribe((response) => {
             if (response) {
                 this.employees = response;
-                console.log('response', response);
+                const user = localStorage.getItem('user');
+                const userObj = JSON.parse(user);
+                const adminIndex = this.employees.findIndex((employee) => employee.email === userObj.email);
+                this.employees.splice(adminIndex,1);
+
             }
-        })
+        }, error => {
+            this._toaster.warning('هناك خطأ ما');
+        });
     }
 
     getCategories(): any {
@@ -183,7 +189,9 @@ export class CreateJobComponent {
             if (response) {
                 this.categories = response;
             }
-        })
+        }, error => {
+            this._toaster.warning('هناك خطأ ما');
+        });
     }
 
     move(event: google.maps.MapMouseEvent): void {
@@ -204,7 +212,7 @@ export class CreateJobComponent {
             start_date: this.newJobForm.get('start_date').value,
             status: 'inactive',
             description: this.newJobForm.get('description').value,
-
+            // radius: this.newJobForm.get('radius').value
         }
         this._service.createJob_API(body).subscribe((response) => {
             if (response) {
@@ -229,12 +237,10 @@ export class CreateJobComponent {
 
     setCategory(category: Category) {
         this.category = category;
-        console.log(this.category);
     }
 
     setEmployee(employee: Employee) {
         this.employee = employee;
-        console.log(this.employee);
     }
 
     setLocation() {
@@ -252,6 +258,5 @@ export class CreateJobComponent {
             strokeColor: '#a17a3f',
             fillColor: '#a17a3f',
         };
-        console.log('radius', this.radius);
     }
 }

@@ -1,13 +1,12 @@
-import {Component, ViewChild} from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {
     ChartComponent,
-    ApexAxisChartSeries,
-    ApexChart,
-    ApexXAxis,
-    ApexTitleSubtitle, ApexDataLabels, ApexLegend, ApexPlotOptions, ApexStroke, ApexOptions
+    ApexOptions
 } from "ng-apexcharts";
-import {UserService} from "../../core/user/user.service";
 import {User} from "../../core/user/user.types";
+import {Service} from "../service/service";
+import {Dashboard} from "../models/model";
+import {ToastrService} from "ngx-toastr";
 
 
 @Component({
@@ -15,14 +14,20 @@ import {User} from "../../core/user/user.types";
     templateUrl: './home.component.html',
     styleUrls: ['./home.component.scss']
 })
-export class HomeComponent {
+export class HomeComponent implements OnInit {
     @ViewChild("chart") chart: ChartComponent;
-
     public user: User;
     public chartOptions: Partial<ApexOptions>;
     public pieChartOptions: Partial<ApexOptions>;
 
-    constructor() {
+    dashboard: Dashboard = {} as Dashboard;
+
+    constructor(private _service: Service,
+                private _toaster: ToastrService) {
+    }
+
+    ngOnInit(): void {
+        this.getDashboardDetails();
         this.user = JSON.parse(localStorage.getItem('user'));
         this.chartOptions = {
             series: [
@@ -59,7 +64,7 @@ export class HomeComponent {
                 position: 'bottom',
                 offsetY: -8,
             },
-            colors: ['#F2B344', '#67DF9C', '#3E8DF3'],
+            colors: ['#4090DB', '#725dcb', '#67DF9C', 'rgba(217,36,36,0.61)'],
             plotOptions: {
                 pie: {
                     customScale: 1,
@@ -68,16 +73,6 @@ export class HomeComponent {
                         labels: {
                             name: {
                                 offsetY: 8,
-                            },
-                            show: true,
-                            total: {
-                                show: true,
-                                showAlways: true,
-                                fontSize: '22px',
-
-                                fontFamily: 'Helvetica, Arial, sans-serif',
-                                fontWeight: 600,
-                                label: '25%',
                             },
                             value: {
                                 offsetY: -5, // -8 worked for me
@@ -88,12 +83,11 @@ export class HomeComponent {
 
                 }
             },
-            series: [20, 50, 30 ],
-
+            series: [25, 25, 25, 25],
             stroke: {
                 colors: ['rgba(255,255,255,0.16)']
             },
-            labels: ['قيد التشغيل', 'قيد الانتظار', 'مكتملة'],
+            labels: ['نشيط', 'قيد التشغيل', 'المكتملة', 'الغير مكتملة'],
             states: {
                 hover: {
                     filter: {
@@ -114,4 +108,19 @@ export class HomeComponent {
         };
     }
 
+    private getDashboardDetails(): void {
+        this._service.getDashboard_API().subscribe((response) => {
+            if (response) {
+                this.dashboard = response;
+                this.getPieResult();
+            }}, error => {
+            this._toaster.warning('هناك خطأ ما');
+
+        })
+    }
+
+    private getPieResult(): void {
+        this.pieChartOptions.series = [parseInt(this.dashboard?.pie?.inactive), parseInt(this.dashboard?.pie?.active), parseInt(this.dashboard?.pie?.completed), parseInt(this.dashboard?.pie?.cancelled)];
+    }
 }
+

@@ -6,6 +6,7 @@
 // regular style toast
 @import 'ngx-toastr/toastr';
 @import "~ng-pick-datetime/assets/style/picker.min.css";
+
 ::-webkit-scrollbar {
     width: 5px;
     //height: 5px;
@@ -13,16 +14,20 @@
     background: var(--fuse-primary-900);
     box-shadow: inset 0 0 4px var(--fuse-primary-900);
 }
+
 ::-webkit-scrollbar:horizontal {
     height: 5px;
 }
+
 ::-webkit-scrollbar-thumb {
     background: var(--fuse-primary-400);
     border-radius: 0 10px 10px 0;
 }
+
 ::-webkit-scrollbar-thumb:horizontal {
-    border-radius:  10px;
+    border-radius: 10px;
 }
+
 .capitalize-sentence {
     .fuse-alert-message:first-letter {
         text-transform: capitalize;
@@ -30,11 +35,11 @@
 
 }
 
-.mat-mdc-form-field-required-marker{
+.mat-mdc-form-field-required-marker {
     @apply text-red-400;
 }
 
-.mat-mdc-form-field-error{
+.mat-mdc-form-field-error {
     @apply text-red-400 font-bold;
 }
 
@@ -49,10 +54,13 @@ input[type=number] {
     -moz-appearance: textfield;
 }
 
-::ng-deep{
-    .mat-datepicker-content{
+.mat-mdc-paginator-range-label {
+    direction: ltr !important;
+}
+
+::ng-deep {
+    .mat-datepicker-content {
         direction: ltr !important;
     }
-
 }
 

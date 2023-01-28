@@ -181,7 +181,6 @@ export class AuthService
         if(this.token){
             this._authenticated = true;
         }
-        console.log('check', this._authenticated);
         // Check if the user is logged in
         if ( this._authenticated )
         {

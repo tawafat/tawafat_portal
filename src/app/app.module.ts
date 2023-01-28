@@ -12,7 +12,9 @@ import {mockApiServices} from 'app/mock-api';
 import {LayoutModule} from 'app/layout/layout.module';
 import {AppComponent} from 'app/app.component';
 import {appRoutes} from 'app/app.routing';
-import {MatNativeDateModule} from "@angular/material/core";
+import { ImageDialogComponent } from './modules/image-dialog/image-dialog.component';
+import {MatDialogModule} from "@angular/material/dialog";
+import {MatButtonModule} from "@angular/material/button";
 
 const routerConfig: ExtraOptions = {
     preloadingStrategy: PreloadAllModules,
@@ -22,6 +24,7 @@ const routerConfig: ExtraOptions = {
 @NgModule({
     declarations: [
         AppComponent,
+        ImageDialogComponent,
     ],
     imports: [
         BrowserModule,
@@ -42,7 +45,9 @@ const routerConfig: ExtraOptions = {
         // Toaster module
         ToastrModule.forRoot({
             positionClass: 'toast-top-left'
-        },)
+        },),
+        MatDialogModule,
+        MatButtonModule
     ],
     bootstrap: [
         AppComponent

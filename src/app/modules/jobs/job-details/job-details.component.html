@@ -29,18 +29,39 @@
     </div>
     <!-- Attachments -->
     <div class="flex-auto -mt-px pt-4 sm:pt-6 p-4 mx-8">
-        <div class="flex lg:flex-row flex-col gap-4 w-full">
+        <div class="flex lg:flex-row flex-col gap-4 w-full  max-h-72 overflow-auto">
             <div class="w-full p-6 bg-card shadow rounded-2xl overflow-auto">
                 <div class="flex flex-col w-full gap-4">
                     <div class="flex flex-grow font-bold text-lg sm:block hidden"
                     >شكاوي
                     </div>
+                    <div *ngIf="!complains.length" class="flex flex-row w-full justify-between">
+                        <div>لم يتم رفع أي شكوى</div>
+                    </div>
                     <div class="flex flex-col w-full" *ngFor="let complain of complains">
-                        <div class="flex flex-row w-full justify-between">
-                            <div>{{complain?.id}}</div>
-                            <div>{{complain?.created_at | dateTransform}}</div>
+                        <div class="flex flex-grow items-start min-w-0">
+                            <div class="flex-0 w-8 h-8 rounded-full bg-primary flex items-center justify-center">
+                                <mat-icon svgIcon="heroicons_solid:chat-alt" [ngStyle]="{'color': 'white'}"
+                                          class="icon-size-5"></mat-icon>
+                            </div>
+                            <div class="flex flex-col min-w-0 mr-2">
+                                <div
+                                    class="text-md font-bold tracking-tight leading-7 md:leading-snug truncate">
+                                    {{complain?.created_by?.name | titlecase}} <span
+                                    class="mr-2 font-light text-sm">{{complain.created_at | timeAgo}}</span>
+                                </div>
+                                <div class="flex flex-row w-full justify-between">
+                                    {{complain.comment}}
+                                </div>
+                                <div class="flex flex-col gap-2 mt-2 w-full justify-between cursor-pointer">
+                                        <img *ngIf="complain?.attachment_id" (click)="showLightbox(complain?.attachment_id)"
+                                             class="h-20 w-auto rounded-md "
+                                             [src]="'https://tawafat.xmotion-sa.com/api/attach/' + complain?.attachment_id"
+                                             [alt]="complain.attachmentType"/>
+
+                                </div>
+                            </div>
                         </div>
-                        {{complain?.comment}}
                     </div>
                 </div>
             </div>
@@ -52,21 +73,22 @@
             <div class="w-full p-6 bg-card shadow rounded-2xl overflow-auto">
                 <div class="flex flex-row w-full justify-between">
                     <div class="font-bold">تفاصيل</div>
-                   <div class="flex flex-row justify-end">
-                       <button
-                           [matTooltip]="'تحرير الوظيفة'"
-                           mat-icon-button
-                           (click)="editJob()">
-                           <mat-icon class="icon-size-5" svgIcon="mat_solid:edit" [ngClass]="'text-primary'"></mat-icon>
-                       </button>
-                       <button
-                           [matTooltip]="'حذف الوظيفة'"
-                           mat-icon-button
-                           (click)="deleteJob()">
-                           <mat-icon [ngClass]="'text-red-500 icon-size-5'"
-                                     svgIcon="heroicons_solid:trash"></mat-icon>
-                       </button>
-                   </div>
+                    <div class="flex flex-row justify-end">
+                        <button
+                            [matTooltip]="'تحرير الوظيفة'"
+                            mat-icon-button
+                            (click)="editJob()">
+                            <mat-icon class="icon-size-5" svgIcon="mat_solid:edit"
+                                      [ngClass]="'text-primary'"></mat-icon>
+                        </button>
+                        <button
+                            [matTooltip]="'حذف الوظيفة'"
+                            mat-icon-button
+                            (click)="deleteJob()">
+                            <mat-icon [ngClass]="'text-red-500 icon-size-5'"
+                                      svgIcon="heroicons_solid:trash"></mat-icon>
+                        </button>
+                    </div>
                 </div>
                 <div class="flex sm:flex-row flex-col w-full gap-6">
 

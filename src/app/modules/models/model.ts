@@ -47,8 +47,8 @@ export interface Job {
     assigned_to?: Employee;
     updated_by?: UpdatedBy;
     created_by?: CreatedBy;
-
     complains?: Complain[],
+    // radius: string,
 }
 
 export interface Category {
@@ -64,7 +64,9 @@ export interface Category {
 export interface Employee {
     id?: number;
     name: string;
-    email: string;
+    password?: string;
+    password_confirmation?: string;
+    email?: string;
     email_verified_at?: any;
     created_at?: Date;
     updated_at?: Date;
@@ -88,4 +90,37 @@ export interface Password{
     old_password: string,
     password: string,
     password_confirmation: string
+}
+
+export interface Attachment{
+    id: number;
+    name: string;
+    type: string;
+    url: string;
+    size: string;
+    folder: string;
+    note: string;
+    description?: any;
+    created_by_id: number;
+    counter: number;
+    created_at: Date;
+    updated_at: Date;
+}
+
+export interface Pie{
+    total: string,
+    inactive: string,
+    active: string,
+    completed: string,
+    cancelled: string,
+}
+
+export interface Graph{
+    dates: Date,
+    total: string,
+}
+
+export interface Dashboard{
+    graph: Graph[],
+    pie: Pie,
 }

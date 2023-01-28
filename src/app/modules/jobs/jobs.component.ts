@@ -4,6 +4,7 @@ import {MatTableDataSource} from "@angular/material/table";
 import {Router} from "@angular/router";
 import {Service} from "../service/service";
 import {Job} from "../models/model";
+import {ToastrService} from "ngx-toastr";
 
 @Component({
     selector: 'app-jobs',
@@ -13,26 +14,16 @@ import {Job} from "../models/model";
 
 export class JobsComponent implements OnInit {
     @ViewChild('paginator') paginator: MatPaginator;
-    dataSource: MatTableDataSource<any>;
+    dataSource: MatTableDataSource<Job>;
     jobs: Job[] = [];
     displayedColumns: string[] = ['status', 'name', 'category', 'startDate', 'endDate', 'assignedBy', 'complain'];
 
-    constructor(private _router: Router, private _service:Service) {
+    constructor(private _router: Router, private _service:Service, private _toaster: ToastrService) {
     }
 
     ngOnInit(): void {
+        this.dataSource = new MatTableDataSource<Job>();
         this.getJob();
-    }
-
-    ngAfterViewInit() {
-        this.dataSource.paginator = this.paginator;
-        this.paginator._intl.itemsPerPageLabel = 'عدد الوحدات في الصفحة';
-        this.paginator._intl.nextPageLabel = 'الصفحة التالية';
-        this.paginator._intl.firstPageLabel = 'الصفحة الأولى';
-        this.paginator._intl.previousPageLabel = 'الصفحة السابقة';
-        this.paginator._intl.lastPageLabel = 'آخر صفحة';
-
-
     }
 
     createJob(): void {
@@ -43,10 +34,17 @@ export class JobsComponent implements OnInit {
         this._service.getJobs_API().subscribe((response) => {
             if (response){
                 this.jobs = response;
-                console.log('jobs', this.jobs);
                 this.dataSource = new MatTableDataSource(this.jobs);
+                this.dataSource.paginator = this.paginator;
+                this.paginator._intl.itemsPerPageLabel = 'عدد الوحدات في الصفحة';
+                this.paginator._intl.nextPageLabel = 'الصفحة التالية';
+                this.paginator._intl.firstPageLabel = 'الصفحة الأولى';
+                this.paginator._intl.previousPageLabel = 'الصفحة السابقة';
+                this.paginator._intl.lastPageLabel = 'آخر صفحة';
             }
-        })
+        }, error => {
+            this._toaster.warning('هناك خطأ ما');
+        });
     }
 
     goToJob(job): void {

@@ -56,7 +56,6 @@ export class SettingsComponent implements OnInit {
                 this.reset();
             }
         }, error => {
-            console.log('error', error.error.message);
             this._toaster.warning(error.error.message);
         });
     }
@@ -104,7 +103,6 @@ export class SettingsComponent implements OnInit {
                 this.paginator._intl.lastPageLabel = 'آخر صفحة';
             }
         }, error => {
-            console.log('error', error.error.message);
             this._toaster.warning('هناك خطأ ما');
         });
     }

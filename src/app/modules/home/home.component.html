@@ -28,34 +28,34 @@
     <div class="flex-auto border-t -mt-px pt-4 sm:pt-6 p-4">
         <div class="w-full max-w-screen-xl mx-auto">
             <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 w-full min-w-0">
-                <!-- Summary -->
+                <!-- Total Jobs -->
                 <div class="flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden">
                     <div class="flex items-start justify-between">
                         <div class="text-lg font-medium tracking-tight leading-6 truncate">اجمالي المهام</div>
                     </div>
                     <div class="flex flex-col items-center mt-2">
-                        <div class="text-7xl sm:text-8xl font-bold tracking-tight leading-none text-blue-500">21</div>
+                        <div class="text-7xl sm:text-8xl font-bold tracking-tight leading-none text-blue-500">{{dashboard?.pie?.total || 0}}</div>
                         <div class="text-lg font-medium text-blue-600 dark:text-blue-500">مهمة</div>
                     </div>
                 </div>
-                <!-- Overdue -->
+                <!-- Active Jobs -->
                 <div class="flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden">
                     <div class="flex items-start justify-between">
                         <div class="text-lg font-medium tracking-tight leading-6 truncate">المهام قيد التشغيل</div>
                     </div>
                     <div class="flex flex-col items-center mt-2">
-                        <div class="text-7xl sm:text-8xl font-bold tracking-tight leading-none text-red-500">17</div>
-                        <div class="text-lg font-medium text-red-600 dark:text-red-500">مهمة</div>
+                        <div class="text-7xl sm:text-8xl font-bold tracking-tight leading-none text-purple-500">{{dashboard?.pie?.active || 0}}</div>
+                        <div class="text-lg font-medium text-purple-600 dark:text-purple-500">مهمة</div>
                     </div>
                 </div>
-                <!-- Issues -->
+                <!-- Completed Jobs -->
                 <div class="flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden">
                     <div class="flex items-start justify-between">
                         <div class="text-lg font-medium tracking-tight leading-6 truncate">المهام المكتملة</div>
                     </div>
                     <div class="flex flex-col items-center mt-2">
-                        <div class="text-7xl sm:text-8xl font-bold tracking-tight leading-none text-amber-500">24</div>
-                        <div class="text-lg font-medium text-amber-600 dark:text-amber-500">مهمة</div>
+                        <div class="text-7xl sm:text-8xl font-bold tracking-tight leading-none text-green-500">{{dashboard?.pie?.completed || 0}}</div>
+                        <div class="text-lg font-medium text-green-600 dark:text-green-500">مهمة</div>
                     </div>
                 </div>
                 <!-- Features -->
@@ -64,8 +64,8 @@
                         <div class="text-lg font-medium tracking-tight leading-6 truncate">المهام الغير مكتملة</div>
                     </div>
                     <div class="flex flex-col items-center mt-2">
-                        <div class="text-7xl sm:text-8xl font-bold tracking-tight leading-none text-green-500">38</div>
-                        <div class="text-lg font-medium text-green-600 dark:text-green-500">مهمة</div>
+                        <div class="text-7xl sm:text-8xl font-bold tracking-tight leading-none text-warn-500">{{dashboard?.pie?.cancelled || 0}}</div>
+                        <div class="text-lg font-medium text-warn-600 dark:text-warn-500">مهمة</div>
                     </div>
                 </div>
             </div>

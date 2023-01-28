@@ -8,10 +8,10 @@
             <div
                 class="flex flex-row w-full bg-primary-700 p-4 items-center">
                 <div *ngIf="!isEdit" class="flex-row text-lg text-white font-semibold text-center w-full">
-                    إضافة التصنيف
+                    إضافة الموظف
                 </div>
                 <div *ngIf="isEdit" class="flex-row text-lg text-white font-semibold text-center w-full">
-                    تحديث التصنيف
+                    تحديث الموظف
                 </div>
                 <div class="flex-row flex-grow">
                     <button (click)="showFiller=false"
@@ -24,7 +24,9 @@
             </div>
 
             <div class="flex flex-col w-full p-4">
+                <!--Start Form-->
                 <form [formGroup]="createUserForm">
+                    <!--Name field-->
                     <mat-form-field appearance="fill" class="w-full">
                         <mat-label class="text-white font-regular">اسم</mat-label>
                         <input matInput [formControlName]="'name'" placeholder="اكتب اسم">
@@ -33,21 +35,67 @@
                             الاسم مطلوب
                         </mat-error>
                     </mat-form-field>
+                    <!--Email Field-->
                     <mat-form-field appearance="fill" class="w-full">
                         <mat-label class="text-white font-regular">البريد الإلكتروني</mat-label>
-                        <input matInput [formControlName]="'email'" placeholder="اكتب البريد الإلكتروني">
+                        <input [readonly]="isReadOnly" [ngClass]="isReadOnly? 'opacity-50' : 'opacity-100'"
+                               matInput [formControlName]="'email'"
+                               placeholder="اكتب البريد الإلكتروني">
                         <mat-error *ngIf="createUserForm.get('email').hasError('required')">
                             الاسم مطلوب
                         </mat-error>
                     </mat-form-field>
+                    <!--Password Field-->
                     <mat-form-field appearance="fill" class="w-full">
-                        <mat-label class="text-white font-regular">كلمه السر</mat-label>
-                        <input matInput [formControlName]="'password'" placeholder="اكتب كلمه السر">
+                        <mat-label class="text-white font-regular">كلمه المرور</mat-label>
+                        <input type="password" #passwordField matInput [formControlName]="'password'"
+                               placeholder="اكتب كلمه المرور">
                         <mat-error *ngIf="createUserForm.get('password').hasError('required')">
-                            الوصف مطلوب
+                            كلمه المرور مطلوب
+                        </mat-error>
+                        <button
+                            mat-icon-button
+                            type="button"
+                            (click)="passwordField.type === 'password' ? passwordField.type = 'text' : passwordField.type = 'password'"
+                            matSuffix>
+                            <mat-icon
+                                class="icon-size-5"
+                                *ngIf="passwordField.type === 'password'"
+                                [svgIcon]="'heroicons_solid:eye'"></mat-icon>
+                            <mat-icon
+                                class="icon-size-5"
+                                *ngIf="passwordField.type === 'text'"
+                                [svgIcon]="'heroicons_solid:eye-off'"></mat-icon>
+                        </button>
+                    </mat-form-field>
+                    <!--Confirm Password Field-->
+                    <mat-form-field appearance="fill" class="w-full">
+                        <mat-label class="text-white font-regular">تأكيد كلمة المرور</mat-label>
+                        <input type="password" matInput [formControlName]="'confirm_password'"
+                               placeholder="اكتب تأكيد كلمه المرور" #passwordFieldConfirm>
+                        <mat-error *ngIf="createUserForm.get('confirm_password').hasError('required')">
+                            تأكيد كلمه المرور مطلوب
+                        </mat-error>
+                        <button
+                            mat-icon-button
+                            type="button"
+                            (click)="passwordFieldConfirm.type === 'password' ? passwordFieldConfirm.type = 'text' : passwordFieldConfirm.type = 'password'"
+                            matSuffix>
+                            <mat-icon
+                                class="icon-size-5"
+                                *ngIf="passwordFieldConfirm.type === 'password'"
+                                [svgIcon]="'heroicons_solid:eye'"></mat-icon>
+                            <mat-icon
+                                class="icon-size-5"
+                                *ngIf="passwordFieldConfirm.type === 'text'"
+                                [svgIcon]="'heroicons_solid:eye-off'"></mat-icon>
+                        </button>
+                        <mat-error *ngIf="createUserForm.get('confirm_password').hasError('mustMatch')">
+                            يجب ان تتطابق كلمات المرور
                         </mat-error>
                     </mat-form-field>
                 </form>
+                <!--End Form-->
                 <div class="flex flex-row w-full justify-end">
                     <button *ngIf="!isEdit"
                             mat-flat-button [disabled]="createUserForm.invalid"
@@ -78,13 +126,13 @@
                         <!-- Avatar and name -->
                         <div class="flex flex-grow items-center min-w-0">
                             <div class="flex-0 w-16 h-16 rounded-full bg-primary flex items-center justify-center">
-                                <mat-icon svgIcon="mat_solid:category" [ngStyle]="{'color': 'white'}"
+                                <mat-icon svgIcon="heroicons_solid:users" [ngStyle]="{'color': 'white'}"
                                           class="icon-size-10"></mat-icon>
                             </div>
                             <div class="flex flex-col min-w-0 mr-4">
                                 <div
                                     class="text-2xl md:text-5xl font-medium tracking-tight leading-7 md:leading-snug truncate">
-                                    التصنيفات
+                                    الموظفين
                                 </div>
                             </div>
                         </div>

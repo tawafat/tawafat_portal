@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { DateTransformPipe } from './pipes/date-transform.pipe';
+import { TimeAgoPipe } from './pipes/time-ago.pipe';
 
 @NgModule({
     imports: [
@@ -13,10 +14,12 @@ import { DateTransformPipe } from './pipes/date-transform.pipe';
         CommonModule,
         FormsModule,
         ReactiveFormsModule,
-        DateTransformPipe
+        DateTransformPipe,
+        TimeAgoPipe,
     ],
     declarations: [
-      DateTransformPipe
+      DateTransformPipe,
+      TimeAgoPipe,
     ]
 })
 export class SharedModule

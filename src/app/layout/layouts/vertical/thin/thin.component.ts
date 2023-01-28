@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Subject, takeUntil } from 'rxjs';
+import {fromEvent, Observable, Subject, Subscription, takeUntil} from 'rxjs';
 import { FuseMediaWatcherService } from '@fuse/services/media-watcher';
 import { FuseNavigationService, FuseVerticalNavigationComponent } from '@fuse/components/navigation';
 import { Navigation } from 'app/core/navigation/navigation.types';
@@ -13,6 +13,14 @@ import { NavigationService } from 'app/core/navigation/navigation.service';
 })
 export class ThinLayoutComponent implements OnInit, OnDestroy
 {
+    /*Custom Start*/
+    onlineEvent: Observable<Event>;
+    offlineEvent: Observable<Event>;
+    subscriptions: Subscription[] = [];
+
+    connectionStatusMessage: string;
+    connectionStatus: string;
+    /*Custom End*/
     isScreenSmall: boolean;
     navigation: Navigation;
     private _unsubscribeAll: Subject<any> = new Subject<any>();
@@ -51,6 +59,24 @@ export class ThinLayoutComponent implements OnInit, OnDestroy
      */
     ngOnInit(): void
     {
+        /*Custom online settings*/
+        this.onlineEvent = fromEvent(window, 'online');
+        this.offlineEvent = fromEvent(window, 'offline');
+
+        this.subscriptions.push(this.onlineEvent.subscribe(e => {
+            this.connectionStatusMessage = 'Back to online';
+            this.connectionStatus = 'online';
+            console.log('Online...');
+        }));
+
+        this.subscriptions.push(this.offlineEvent.subscribe(e => {
+            this.connectionStatusMessage = 'Connection lost! You are not connected to internet';
+            this.connectionStatus = 'offline';
+            console.log('Offline...');
+        }));
+
+        /*Custom end*/
+
         // Subscribe to navigation data
         this._navigationService.navigation$
             .pipe(takeUntil(this._unsubscribeAll))
@@ -73,9 +99,11 @@ export class ThinLayoutComponent implements OnInit, OnDestroy
      */
     ngOnDestroy(): void
     {
+
         // Unsubscribe from all subscriptions
         this._unsubscribeAll.next(null);
         this._unsubscribeAll.complete();
+
     }
 
     // -----------------------------------------------------------------------------------------------------

@@ -36,7 +36,7 @@
                         <form [formGroup]="newJobForm" class="flx-wrap">
                             <mat-form-field appearance="fill" class="w-full  ">
                                 <mat-label class="font-semibold">اسم الوظيفة</mat-label>
-                                <input
+                                <input [max]="25"
                                     [formControlName]="'name'" matInput
                                     [placeholder]="'اكتب اسم الوظيفة'"
                                     maxlength="40">
@@ -133,7 +133,7 @@
                             <google-map (mapClick)="addMarker($event)" (mapMousemove)="move($event)"
                                         [center]="center"
                                         [options]="options"
-                                        [zoom]="zoom" height="300px" width="100%">
+                                        [zoom]="zoom" height="380px" width="100%">
                                 <map-circle
 
                                     [options]="circleOptions"></map-circle>
@@ -142,7 +142,7 @@
                                 <map-info-window>{{"Info Window content" }}</map-info-window>
 
                             </google-map>
-                            <mat-form-field appearance="fill" class="w-full mt-2">
+                           <!-- <mat-form-field appearance="fill" class="w-full mt-2">
                                 <mat-label class="font-semibold">نصف القطر</mat-label>
                                 <input (input)="updateRadius($event)" type="number"
                                        [formControlName]="'radius'" matInput
@@ -150,9 +150,9 @@
                                 <mat-error *ngIf="newJobForm.get('radius').getError('required')">
                                     مطلوب نصف القطر
                                 </mat-error>
-                            </mat-form-field>
+                            </mat-form-field>-->
                         </form>
-                        <div class="flex flex-row w-full justify-end">
+                        <div class="flex flex-row w-full justify-end mt-4">
                             <button
                                 mat-flat-button
                                 [disabled]="newJobForm.invalid"

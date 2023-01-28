@@ -6,6 +6,9 @@ import {Service} from "../../service/service";
 import {Complain, Job} from "../../models/model";
 import {FuseConfirmationService} from "../../../../@fuse/services/confirmation";
 import {Toast, ToastrService} from "ngx-toastr";
+import {ImageDialogComponent} from "../../image-dialog/image-dialog.component";
+import {MatDialog, MatDialogRef} from "@angular/material/dialog";
+import {Dialog} from "@angular/cdk/dialog";
 
 @Component({
     selector: 'app-job-details',
@@ -16,18 +19,23 @@ export class JobDetailsComponent {
     @ViewChild('mapSearchField') searchField: ElementRef;
     @ViewChild(GoogleMap) map: GoogleMap;
     public jobDetail: Job = {} as Job;
-
+    showFlag: boolean = false;
+    selectedImageIndex: number = -1;
     complains: Complain[] = [];
+    currentIndex: any = -1;
     private jobId: string = '';
     radius: number = 50;
+    imageObject: Array<object> = [];
+
 
     constructor(private _router: Router,
+                public dialog: MatDialog,
                 private _formBuilder: FormBuilder,
                 private geocoder: MapGeocoder,
                 private _service: Service,
                 private _route: ActivatedRoute,
                 private _fuseConfirmationService: FuseConfirmationService,
-                private _toaster : ToastrService,
+                private _toaster: ToastrService,
     ) {
     }
 
@@ -53,16 +61,17 @@ export class JobDetailsComponent {
             if (response) {
                 this.jobDetail = response;
                 this.complains = this.jobDetail.complains;
-                console.log('response', this.complains);
             }
-        })
+        }, error => {
+            this._toaster.warning('هناك خطأ ما');
+        });
     }
 
     parseFloat(coordinate: string): number {
         return parseFloat(coordinate);
     }
 
-    deleteJob(): void{
+    deleteJob(): void {
         const confirmation = this._fuseConfirmationService.open({
             title: 'حذف الوظيفة',
             message: 'هل أنت متأكد أنك تريد حذف هذه الوظيفة؟ لا يمكن التراجع عن الإجراء الحالي!',
@@ -89,4 +98,15 @@ export class JobDetailsComponent {
         });
 
     }
+
+    showLightbox(complainId: string) {
+        console.log('complainId', complainId);
+        const dialogRef = this.dialog.open(ImageDialogComponent,
+            {data: {id:complainId }});
+
+        dialogRef.afterClosed().subscribe(result => {
+            console.log(`Dialog result: ${result}`);
+        });
+    }
+
 }

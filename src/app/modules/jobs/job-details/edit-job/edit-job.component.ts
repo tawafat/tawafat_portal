@@ -57,7 +57,6 @@ export class EditJobComponent {
     }
 
     ngOnInit(): void {
-        console.log('minDate', this.minDate);
         this.initForm();
         this.getCategories();
         this.getEmployees();
@@ -66,9 +65,13 @@ export class EditJobComponent {
             this.jobId = routeSnapshot.params.jobId;
         });
         this._service.getJobById_API(this.jobId).subscribe((response) => {
-            this.jobDetails = response;
-            this.populateForm();
-        })
+            if (response){
+                this.jobDetails = response;
+                this.populateForm();
+            }
+        }, error => {
+            this._toaster.warning('هناك خطأ ما');
+        });
     }
 
     initForm(): void {
@@ -79,8 +82,8 @@ export class EditJobComponent {
             end_date: ['', Validators.required],
             description: ['', Validators.required],
             assigned_to: ['', Validators.required],
-            location_lat: ['', Validators.required],
-            location_lng: ['', Validators.required],
+            location_lat: [''],
+            location_lng: [''],
         });
         this.editMapForm = this._formBuilder.group({
             location_address: ['', Validators.required],
@@ -146,6 +149,7 @@ export class EditJobComponent {
         this.editMapForm.get('location_address').setValue(this.jobDetails.location.address);
         this.editJobForm.get('location_lat').setValue(this.jobDetails.location.lat);
         this.editJobForm.get('location_lng').setValue(this.jobDetails.location.long);
+        // this.editJobForm.get('radius').setValue(this.jobDetails.radius);
         //Todo: add radius from api here
         this.editMapForm.get('radius').setValue(50);
         const lat = parseFloat(this.editJobForm.get('location_lat').value);
@@ -162,7 +166,6 @@ export class EditJobComponent {
         this.category = this.jobDetails.category;
         this.employee = this.jobDetails.assigned_to;
 
-        console.log('editForm', this.editJobForm);
     }
 
     getCategories(): any {
@@ -170,15 +173,24 @@ export class EditJobComponent {
             if (response) {
                 this.categories = response;
             }
-        })
+        }, error => {
+            this._toaster.warning('هناك خطأ ما');
+        });
     }
 
     getEmployees(): any {
         this._service.getEmployees_API().subscribe((response) => {
             if (response) {
                 this.employees = response;
+                const user = localStorage.getItem('user');
+                const userObj = JSON.parse(user);
+                const adminIndex = this.employees.findIndex((employee) => employee.email === userObj.email);
+                this.employees.splice(adminIndex,1);
+
             }
-        })
+        }, error => {
+            this._toaster.warning('هناك خطأ ما');
+        });
     }
 
     backToJobs(): void {
@@ -187,20 +199,16 @@ export class EditJobComponent {
 
     addMarker(event: google.maps.MapMouseEvent | { latLng: google.maps.LatLng }) {
         this.markerPosition = event.latLng.toJSON();
-        this.editMapForm.controls.location_lat.setValue(this.markerPosition.lat);
-        this.editMapForm.controls.location_lng.setValue(this.markerPosition.lng);
-        this.circleOptions = {
-            center: {lat: this.markerPosition.lat, lng: this.markerPosition.lng},
-            radius: this.radius,
-            visible: true,
-            strokeColor: '#a17a3f',
-            fillColor: '#a17a3f',
-        };
+
+        debugger
 
 
         this.geocoder.geocode({
             location: {lat: this.markerPosition.lat, lng: this.markerPosition.lng}
         }).subscribe(({results}) => {
+            this.updateRadius();
+            this.editMapForm.get('location_lat')?.setValue(this.markerPosition.lat);
+            this.editMapForm.get('location_lng')?.setValue(this.markerPosition.lng);
             if (results[1]) {
                 this.editMapForm.controls.location_address.setValue(results[1].formatted_address);
             } else if (results[0]) {
@@ -243,6 +251,7 @@ export class EditJobComponent {
             start_date: this.editJobForm.get('start_date').value,
             status: this.jobDetails?.status || 'inactive',
             description: this.editJobForm.get('description').value,
+            // radius: this.editJobForm.get('radius').value
 
         }
         this._service.updateJob_API(this.jobId, body).subscribe((response) => {
@@ -274,7 +283,6 @@ export class EditJobComponent {
             strokeColor: '#a17a3f',
             fillColor: '#a17a3f',
         };
-        console.log('radius', this.radius);
     }
 
     setMinDate(status: 'Open' | 'Closed'): void {

@@ -20,11 +20,8 @@ import {MatTooltipModule} from "@angular/material/tooltip";
 import { EditJobComponent } from './job-details/edit-job/edit-job.component';
 import {
     NgxMatDatetimePickerModule,
-    NgxMatNativeDateModule,
     NgxMatTimepickerModule
 } from "@angular-material-components/datetime-picker";
-import {MomentDateTimeModule} from "ng-pick-datetime/date-time/adapter/moment-adapter/moment-date-time.module";
-import {MomentDateTimeAdapter} from "ng-pick-datetime/date-time/adapter/moment-adapter/moment-date-time-adapter.class";
 import {NgxMatMomentModule} from "@angular-material-components/moment-adapter";
 import {SharedModule} from "../../shared/shared.module";
 
@@ -75,7 +72,7 @@ const routes: Routes = [
         MatButtonModule,
         NgxMatDatetimePickerModule,
         NgxMatMomentModule,
-        SharedModule
+        SharedModule,
     ]
 })
 export class JobsModule {
