@@ -1,0 +1,10 @@
+<h2 mat-dialog-title class="flex flex-row justify-center">معاينة المرفقات</h2>
+<mat-dialog-content class="mat-typography">
+    <div class="flex flex-row w-full">
+    <img [src]="'https://tawafat.xmotion-sa.com/api/attach/' + imageId" alt=""/>
+    </div>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+    <button (click)="downloadImg()" mat-button class="bg-green-500 text-white">تحميل</button>
+    <button mat-button mat-dialog-close class="bg-warn-500 text-white">أغلق</button>
+</mat-dialog-actions>

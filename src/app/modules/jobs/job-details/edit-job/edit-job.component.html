@@ -1,168 +1,168 @@
-<div class="flex flex-col w-full">
-    <div class="bg-card">
-        <div class="flex flex-col w-full max-w-screen-xl mx-auto px-6 sm:px-8">
-            <div class="flex flex-row items-center my-8">
-                <!-- Avatar and name -->
-                <div class="flex flex-grow items-center min-w-0">
-                    <div class="flex-0 w-16 h-16 rounded-full bg-primary flex items-center justify-center">
-                        <mat-icon svgIcon="mat_solid:work" [ngStyle]="{'color': 'white'}"
-                                  class="icon-size-10"></mat-icon>
-                    </div>
-                    <div class="flex flex-col min-w-0 mr-4">
-                        <div
-                            class="text-2xl md:text-5xl font-medium tracking-tight leading-7 md:leading-snug truncate">
-                            وظيفة التحديث
+    <div class="flex flex-col w-full">
+        <div class="bg-card">
+            <div class="flex flex-col w-full max-w-screen-xl mx-auto px-6 sm:px-8">
+                <div class="flex flex-row items-center my-8">
+                    <!-- Avatar and name -->
+                    <div class="flex flex-grow items-center min-w-0">
+                        <div class="flex-0 w-16 h-16 rounded-full bg-primary flex items-center justify-center">
+                            <mat-icon svgIcon="mat_solid:work" [ngStyle]="{'color': 'white'}"
+                                      class="icon-size-10"></mat-icon>
                         </div>
-                    </div>
-                </div>
-                <!-- Action -->
-                <button
-                    mat-flat-button
-                    [color]="'primary'"
-                    (click)="backToJobs()">
-                    <mat-icon class="icon-size-5" svgIcon="mat_solid:arrow_forward_ios"></mat-icon>
-                    <span class="mr-2">الرجوع للقائمة</span>
-                </button>
-            </div>
-        </div>
-
-    </div>
-    <!-- Main -->
-    <div class="flex-auto border-t -mt-px pt-4 sm:pt-6 p-4 mx-8">
-        <div class="flex lg:flex-row flex-col gap-4 w-full">
-            <div class="w-full p-6 bg-card shadow rounded-2xl overflow-auto">
-                <div class="flex sm:flex-row flex-col w-full gap-6">
-                    <div class="sm:w-1/2 w-full">
-                        <form [formGroup]="editJobForm" class="flx-wrap">
-                            <mat-form-field appearance="fill" class="w-full  ">
-                                <mat-label class="font-semibold">اسم الوظيفة</mat-label>
-                                <input [max]="25"
-                                    [formControlName]="'name'" matInput
-                                    [placeholder]="'اكتب اسم الوظيفة'"
-                                    maxlength="40">
-                                <mat-error *ngIf="editJobForm?.get('name').getError('required')">
-                                    مطلوب اسم الوظيفة
-                                </mat-error>
-                            </mat-form-field>
-
-                            <mat-form-field appearance="fill" class="w-full  ">
-                                <mat-label class="font-semibold">التصنيف</mat-label>
-                                <mat-select [formControlName]="'category'">
-                                    <mat-option *ngFor="let category of categories" (click)="setCategory(category)" [value]="category.id">
-                                        {{category.name}}
-                                    </mat-option>
-                                </mat-select>
-                                <mat-error *ngIf="editJobForm?.get('category').getError('required')">
-                                    مطلوب التصنيف الوظيفة
-                                </mat-error>
-                            </mat-form-field>
-
-                            <div class="flex flex-row gap-2">
-                                <div class="w-1/2">
-                                    <mat-form-field appearance="fill" class="w-full  ">
-                                        <mat-label class="font-semibold">تاريخ البدء</mat-label>
-                                        <input matInput [min]="minDate" [ngxMatDatetimePicker]="pickerStart"
-                                               [placeholder]="'اكتب تاريخ البدء'" [formControlName]="'start_date'">
-                                        <mat-datepicker-toggle matSuffix [for]="pickerStart"></mat-datepicker-toggle>
-                                        <ngx-mat-datetime-picker #pickerStart enableMeridian="true" (opened)="setMinDate('Open')"
-                                                                 (closed)="setMinDate('Closed')">
-                                        </ngx-mat-datetime-picker>
-                                        <mat-error *ngIf="editJobForm?.get('start_date').getError('required')">
-                                            مطلوب تاريخ البدء
-                                        </mat-error>
-                                    </mat-form-field>
-                                </div>
-                                <div class="w-1/2">
-                                    <mat-form-field appearance="fill" class="w-full">
-                                        <mat-label class="font-semibold">تاريخ الانتهاء</mat-label>
-                                        <input matInput [min]="minDate" [ngxMatDatetimePicker]="pickerEnd"
-                                               [placeholder]="'اكتب تاريخ الانتهاء'" [formControlName]="'end_date'">
-                                        <mat-datepicker-toggle matSuffix [for]="pickerEnd"></mat-datepicker-toggle>
-                                        <ngx-mat-datetime-picker #pickerEnd enableMeridian="true">
-                                        </ngx-mat-datetime-picker>
-                                        <mat-error *ngIf="editJobForm?.get('end_date').getError('required')">
-                                            مطلوب تاريخ الانتهاء
-                                        </mat-error>
-                                    </mat-form-field>
-
-                                </div>
-
+                        <div class="flex flex-col min-w-0 mr-4">
+                            <div
+                                class="text-2xl md:text-5xl font-medium tracking-tight leading-7 md:leading-snug truncate">
+                                وظيفة التحديث
                             </div>
-                            <mat-form-field class="w-full" appearance="fill">
-                                <mat-label class="font-semibold">{{'وصف الوظيفة'}}</mat-label>
-                                <textarea
-                                    [placeholder]="'اكتب وصف الوظيفة'"
-                                    cols="20"
-                                    maxlength="255"
-                                    matInput
-                                    [formControlName]="'description'"></textarea>
-                                <mat-error *ngIf="editJobForm?.get('description').getError('required')">
-                                    مطلوب وصف الوظيفة
-                                </mat-error>
-                            </mat-form-field>
-                            <mat-form-field class="w-full" appearance="fill">
-                                <mat-label class="font-semibold">العامل المسؤول</mat-label>
-                                <mat-select [formControlName]="'assigned_to'">
-                                    <mat-option *ngFor="let employee of employees" [value]="employee.id" (click)="setEmployee(employee)">
-                                        {{employee.name |titlecase}} {{ ' (' + employee.email + ')'}}
-                                    </mat-option>
-                                </mat-select>
-                                <mat-error *ngIf="editJobForm?.get('assigned_to').getError('required')">
-                                    مطلوب العامل المسؤول
-                                </mat-error>
-                            </mat-form-field>
-
-                        </form>
-                    </div>
-                    <div class="sm:w-1/2 w-full">
-                        <form [formGroup]="editMapForm" class="flex-wrap">
-                            <mat-form-field appearance="fill" class="w-full  ">
-                                <mat-label class="font-semibold">اختر موقعا</mat-label>
-                                <input #mapSearchField [formControlName]="'location_address'" matInput
-                                       [placeholder]="'بحث في الخريطو'">
-                                <mat-error *ngIf="editMapForm?.get('location_address').getError('required')">
-                                    مطلوب موقعا
-                                </mat-error>
-                            </mat-form-field>
-
-                            <google-map (mapClick)="addMarker($event)" (mapMousemove)="move($event)"
-                                        [center]="center"
-                                        [options]="options"
-                                        [zoom]="zoom" height="380px" width="100%">
-                                <map-marker [options]="markerOptions"
-                                            [position]="markerPosition"></map-marker>
-                                <map-circle [options]="circleOptions"></map-circle>
-                                <map-info-window>{{"Info Window content" }}</map-info-window>
-
-                            </google-map>
-                           <!-- <mat-form-field appearance="fill" class="w-full mt-2">
-                                <mat-label class="font-semibold">نصف القطر</mat-label>
-                                <input (input)="updateRadius()" type="number"
-                                    [formControlName]="'radius'" matInput [value]="radius"
-                                    [placeholder]="'أدخل نصف القطر'"
-                                    maxlength="40">
-                                <mat-error *ngIf="editMapForm?.get('radius').getError('required')">
-                                    مطلوب نصف القطر
-                                </mat-error>
-                            </mat-form-field>-->
-                        </form>
-                        <div class="flex flex-row w-full justify-end mt-4">
-                            <button
-                                mat-flat-button
-                                (click)="saveJob()"
-                                [disabled]="editMapForm.invalid || editJobForm.invalid"
-                                [color]="'primary'">
-                                <mat-icon
-                                    class="icon-size-5"
-                                    [svgIcon]="'heroicons_solid:check'"></mat-icon>
-                                <span class="mr-2">تحديث</span>
-                            </button>
                         </div>
                     </div>
+                    <!-- Action -->
+                    <button
+                        mat-flat-button
+                        [color]="'primary'"
+                        (click)="backToJobs()">
+                        <mat-icon class="icon-size-5" svgIcon="mat_solid:arrow_forward_ios"></mat-icon>
+                        <span class="mr-2">الرجوع للقائمة</span>
+                    </button>
+                </div>
+            </div>
+
+        </div>
+        <!-- Main -->
+        <div class="flex-auto border-t -mt-px pt-4 sm:pt-6 p-4 mx-8">
+            <div class="flex lg:flex-row flex-col gap-4 w-full">
+                <div class="w-full p-6 bg-card shadow rounded-2xl overflow-auto">
+                    <div class="flex sm:flex-row flex-col w-full gap-6">
+                        <div class="sm:w-1/2 w-full">
+                            <form [formGroup]="editJobForm" class="flx-wrap">
+                                <mat-form-field appearance="fill" class="w-full  ">
+                                    <mat-label class="font-semibold">اسم الوظيفة</mat-label>
+                                    <input [max]="25"
+                                        [formControlName]="'name'" matInput
+                                        [placeholder]="'اكتب اسم الوظيفة'"
+                                        maxlength="40">
+                                    <mat-error *ngIf="editJobForm?.get('name').getError('required')">
+                                        مطلوب اسم الوظيفة
+                                    </mat-error>
+                                </mat-form-field>
+
+                                <mat-form-field appearance="fill" class="w-full  ">
+                                    <mat-label class="font-semibold">التصنيف</mat-label>
+                                    <mat-select [formControlName]="'category'">
+                                        <mat-option *ngFor="let category of categories" (click)="setCategory(category)" [value]="category.id">
+                                            {{category.name}}
+                                        </mat-option>
+                                    </mat-select>
+                                    <mat-error *ngIf="editJobForm?.get('category').getError('required')">
+                                        مطلوب التصنيف الوظيفة
+                                    </mat-error>
+                                </mat-form-field>
+
+                                <div class="flex flex-row gap-2">
+                                    <div class="w-1/2">
+                                        <mat-form-field appearance="fill" class="w-full  ">
+                                            <mat-label class="font-semibold">تاريخ البدء</mat-label>
+                                            <input matInput [min]="minDate" [ngxMatDatetimePicker]="pickerStart"
+                                                   [placeholder]="'اكتب تاريخ البدء'" [formControlName]="'start_date'">
+                                            <mat-datepicker-toggle matSuffix [for]="pickerStart"></mat-datepicker-toggle>
+                                            <ngx-mat-datetime-picker #pickerStart enableMeridian="true" (opened)="setMinDate('Open')"
+                                                                     (closed)="setMinDate('Closed')">
+                                            </ngx-mat-datetime-picker>
+                                            <mat-error *ngIf="editJobForm?.get('start_date').getError('required')">
+                                                مطلوب تاريخ البدء
+                                            </mat-error>
+                                        </mat-form-field>
+                                    </div>
+                                    <div class="w-1/2">
+                                        <mat-form-field appearance="fill" class="w-full">
+                                            <mat-label class="font-semibold">تاريخ الانتهاء</mat-label>
+                                            <input matInput [min]="minDate" [ngxMatDatetimePicker]="pickerEnd"
+                                                   [placeholder]="'اكتب تاريخ الانتهاء'" [formControlName]="'end_date'">
+                                            <mat-datepicker-toggle matSuffix [for]="pickerEnd"></mat-datepicker-toggle>
+                                            <ngx-mat-datetime-picker #pickerEnd enableMeridian="true">
+                                            </ngx-mat-datetime-picker>
+                                            <mat-error *ngIf="editJobForm?.get('end_date').getError('required')">
+                                                مطلوب تاريخ الانتهاء
+                                            </mat-error>
+                                        </mat-form-field>
+
+                                    </div>
+
+                                </div>
+                                <mat-form-field class="w-full" appearance="fill">
+                                    <mat-label class="font-semibold">{{'وصف الوظيفة'}}</mat-label>
+                                    <textarea
+                                        [placeholder]="'اكتب وصف الوظيفة'"
+                                        cols="20"
+                                        maxlength="255"
+                                        matInput
+                                        [formControlName]="'description'"></textarea>
+                                    <mat-error *ngIf="editJobForm?.get('description').getError('required')">
+                                        مطلوب وصف الوظيفة
+                                    </mat-error>
+                                </mat-form-field>
+                                <mat-form-field class="w-full" appearance="fill">
+                                    <mat-label class="font-semibold">العامل المسؤول</mat-label>
+                                    <mat-select [formControlName]="'assigned_to'">
+                                        <mat-option *ngFor="let employee of employees" [value]="employee.id" (click)="setEmployee(employee)">
+                                            {{employee.name |titlecase}} {{ ' (' + employee.email + ')'}}
+                                        </mat-option>
+                                    </mat-select>
+                                    <mat-error *ngIf="editJobForm?.get('assigned_to').getError('required')">
+                                        مطلوب العامل المسؤول
+                                    </mat-error>
+                                </mat-form-field>
+
+                            </form>
+                        </div>
+                        <div class="sm:w-1/2 w-full">
+                            <form [formGroup]="editMapForm" class="flex-wrap">
+                                <mat-form-field appearance="fill" class="w-full  ">
+                                    <mat-label class="font-semibold">اختر موقعا</mat-label>
+                                    <input #mapSearchField [formControlName]="'location_address'" matInput
+                                           [placeholder]="'بحث في الخريطو'">
+                                    <mat-error *ngIf="editMapForm?.get('location_address').getError('required')">
+                                        مطلوب موقعا
+                                    </mat-error>
+                                </mat-form-field>
+
+                                <google-map (mapClick)="addMarker($event)" (mapMousemove)="move($event)"
+                                            [center]="center"
+                                            [options]="options"
+                                            [zoom]="zoom" height="380px" width="100%">
+                                    <map-marker [options]="markerOptions"
+                                                [position]="markerPosition"></map-marker>
+                                    <map-circle [options]="circleOptions"></map-circle>
+                                    <map-info-window>{{"Info Window content" }}</map-info-window>
+
+                                </google-map>
+                               <!-- <mat-form-field appearance="fill" class="w-full mt-2">
+                                    <mat-label class="font-semibold">نصف القطر</mat-label>
+                                    <input (input)="updateRadius()" type="number"
+                                        [formControlName]="'radius'" matInput [value]="radius"
+                                        [placeholder]="'أدخل نصف القطر'"
+                                        maxlength="40">
+                                    <mat-error *ngIf="editMapForm?.get('radius').getError('required')">
+                                        مطلوب نصف القطر
+                                    </mat-error>
+                                </mat-form-field>-->
+                            </form>
+                            <div class="flex flex-row w-full justify-end mt-4">
+                                <button
+                                    mat-flat-button
+                                    (click)="saveJob()"
+                                    [disabled]="editMapForm.invalid || editJobForm.invalid"
+                                    [color]="'primary'">
+                                    <mat-icon
+                                        class="icon-size-5"
+                                        [svgIcon]="'heroicons_solid:check'"></mat-icon>
+                                    <span class="mr-2">تحديث</span>
+                                </button>
+                            </div>
+                        </div>
 
 
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
