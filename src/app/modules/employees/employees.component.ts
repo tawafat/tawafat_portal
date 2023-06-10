@@ -61,12 +61,14 @@ export class EmployeesComponent {
                 const adminIndex = this.employees.findIndex((employee) => employee.email === userObj.email);
                 this.employees.splice(adminIndex,1);
                 this.dataSource = new MatTableDataSource<Employee>(this.employees);
-                this.dataSource.paginator = this.paginator;
-                this.paginator._intl.itemsPerPageLabel = 'عدد الوحدات في الصفحة';
-                this.paginator._intl.nextPageLabel = 'الصفحة التالية';
-                this.paginator._intl.firstPageLabel = 'الصفحة الأولى';
-                this.paginator._intl.previousPageLabel = 'الصفحة السابقة';
-                this.paginator._intl.lastPageLabel = 'آخر صفحة';
+                if (this.employees.length){
+                    this.dataSource.paginator = this.paginator;
+                    this.paginator._intl.itemsPerPageLabel = 'عدد الوحدات في الصفحة';
+                    this.paginator._intl.nextPageLabel = 'الصفحة التالية';
+                    this.paginator._intl.firstPageLabel = 'الصفحة الأولى';
+                    this.paginator._intl.previousPageLabel = 'الصفحة السابقة';
+                    this.paginator._intl.lastPageLabel = 'آخر صفحة';
+                }
             }
         }, error => {
             this._toaster.warning('هناك خطأ ما');

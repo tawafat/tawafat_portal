@@ -11,6 +11,7 @@ import {DataSource} from "@angular/cdk/collections";
 import {MatTableDataSource} from "@angular/material/table";
 import {MatTabChangeEvent} from "@angular/material/tabs";
 import {Router} from "@angular/router";
+import {MatPaginator} from "@angular/material/paginator";
 
 
 @Component({
@@ -27,6 +28,9 @@ export class HomeComponent implements OnInit, AfterViewInit {
     dataSourceFoodVisit: MatTableDataSource<any>;
     dataSourceGateVisit: MatTableDataSource<any>;
     dataSourceCampVisit: MatTableDataSource<any>;
+    @ViewChild('campPaginator') campPaginator: MatPaginator;
+    @ViewChild('foodPaginator') foodPaginator: MatPaginator;
+    @ViewChild('gatePaginator') gatePaginator: MatPaginator;
     displayedColumnsFoodVisit: string[] = ['id', 'date_time', 'no_of_packages', 'rejected_packages', 'min_weight'];
     displayedColumnsGateVisit: string[] = ['id', 'date_time', 'gate_number', 'no_entering', 'no_exiting', 'no_inside'];
     displayedColumnsCampVisit: string[] = ['id', 'date_time', 'camp_number', 'temperature', 'humidity'];
@@ -43,6 +47,9 @@ export class HomeComponent implements OnInit, AfterViewInit {
         this.dataSourceFoodVisit = new MatTableDataSource<any>();
         this.dataSourceGateVisit = new MatTableDataSource<any>();
         this.dataSourceCampVisit = new MatTableDataSource<any>();
+        this.dataSourceCampVisit.paginator = this.campPaginator;
+        this.dataSourceGateVisit.paginator = this.gatePaginator;
+        this.dataSourceFoodVisit.paginator = this.foodPaginator;
         this.getJobsByType('1');
         this.getDashboardDetails();
         this.user = JSON.parse(localStorage.getItem('user'));
@@ -117,6 +124,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
             this.dataSourceGateVisit = new MatTableDataSource<any>(this.jobs);
         } else if (this.selectedJobType === 3) {
             this.dataSourceCampVisit = new MatTableDataSource<any>(this.jobs);
+            this.dataSourceCampVisit.paginator = this.campPaginator;
         } else {
             this.dataSourceFoodVisit = new MatTableDataSource<any>(this.jobs);
         }
@@ -143,20 +151,42 @@ export class HomeComponent implements OnInit, AfterViewInit {
 
                 if (job_type === '1') {
                     this.dataSourceFoodVisit = new MatTableDataSource<any>(this.jobs);
+                    if (this.jobs.length) {
+                        this.setPaginator(this.dataSourceFoodVisit);
+                    }
                 } else if (job_type === '2') {
                     this.dataSourceGateVisit = new MatTableDataSource<any>(this.jobs);
+                    if (this.jobs.length) {
+                        this.setPaginator(this.dataSourceGateVisit);
+                    }
                 } else if (job_type === '3') {
                     this.dataSourceCampVisit = new MatTableDataSource<any>(this.jobs);
+                    if (this.jobs.length) {
+                        this.setPaginator(this.dataSourceCampVisit);
+                    }
                 } else {
                     this.dataSourceFoodVisit = new MatTableDataSource<any>(this.jobs);
+                    if (this.jobs.length) {
+                        this.setPaginator(this.dataSourceFoodVisit);
+                    }
                 }
-            }}, error => {
+            }
+        }, error => {
             this._toaster.warning('هناك خطأ ما');
         })
     }
 
     private getPieResult(): void {
         this.pieChartOptions.series = [parseInt(this.dashboard?.pie?.inactive), parseInt(this.dashboard?.pie?.active), parseInt(this.dashboard?.pie?.completed), parseInt(this.dashboard?.pie?.cancelled)];
+    }
+
+    private setPaginator(dataSourcePaginator) {
+        dataSourcePaginator.paginator = this.campPaginator;
+        dataSourcePaginator._intl.itemsPerPageLabel = 'عدد الوحدات في الصفحة';
+        dataSourcePaginator._intl.nextPageLabel = 'الصفحة التالية';
+        dataSourcePaginator._intl.firstPageLabel = 'الصفحة الأولى';
+        dataSourcePaginator._intl.previousPageLabel = 'الصفحة السابقة';
+        dataSourcePaginator._intl.lastPageLabel = 'آخر صفحة'
     }
 
     toggleJobType($event: MatTabChangeEvent) {

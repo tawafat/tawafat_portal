@@ -253,8 +253,11 @@ export class CreateJobComponent {
     setJobType(job: JobType) {
         switch (job.id){
             case '1' :
-                this.newJobForm.get('type').setValue(job.slug)
-
+                this.newJobForm.get('type').setValue(job.id)
+            case '2' :
+                this.newJobForm.get('type').setValue(job.id)
+            case '3' :
+                this.newJobForm.get('type').setValue(job.id)
         }
     }
 

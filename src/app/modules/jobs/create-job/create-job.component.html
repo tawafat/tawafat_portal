@@ -96,7 +96,7 @@
                                 <mat-label class="font-semibold">{{'نوع الزيارة'}}</mat-label>
                                 <mat-select [formControlName]="'type'">
                                     <mat-option *ngFor="let job of jobTypes"
-                                                (click)="setJobType(job)" [value]="job.slug">
+                                                (click)="setJobType(job)" [value]="job.id">
                                         {{job.name_ar |titlecase}}
                                     </mat-option>
                                 </mat-select>

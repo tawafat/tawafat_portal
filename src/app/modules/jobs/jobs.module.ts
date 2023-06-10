@@ -4,7 +4,6 @@ import {RouterModule, Routes} from "@angular/router";
 import {JobsComponent} from "./jobs.component";
 import {MatIconModule} from "@angular/material/icon";
 import {MatButtonModule} from "@angular/material/button";
-import {MatPaginatorModule} from "@angular/material/paginator";
 import {MatTableModule} from "@angular/material/table";
 import { CreateJobComponent } from './create-job/create-job.component';
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
@@ -25,6 +24,8 @@ import {
 import {NgxMatMomentModule} from "@angular-material-components/moment-adapter";
 import {SharedModule} from "../../shared/shared.module";
 import {MatSlideToggleModule} from "@angular/material/slide-toggle";
+import {MatPaginatorIntl, MatPaginatorModule} from "@angular/material/paginator";
+import {MatPaginatorIntlCro} from "../mat-paginator-intl";
 
 const routes: Routes = [
     {
@@ -48,13 +49,12 @@ const routes: Routes = [
 
 @NgModule({
     declarations: [JobsComponent, CreateJobComponent, JobDetailsComponent,EditJobComponent],
-    providers: [MatDatepickerModule, GoogleMap],
+    providers: [MatDatepickerModule, GoogleMap, MatPaginatorIntl, MatPaginatorIntlCro],
     imports: [
         RouterModule.forChild(routes),
         CommonModule,
         MatIconModule,
         MatButtonModule,
-        MatPaginatorModule,
         MatTableModule,
         ReactiveFormsModule,
         MatFormFieldModule,
@@ -68,6 +68,7 @@ const routes: Routes = [
         MatTooltipModule,
         MatDatepickerModule,
         MatInputModule,
+        MatPaginatorModule,
         NgxMatTimepickerModule,
         FormsModule,
         ReactiveFormsModule,
@@ -75,7 +76,9 @@ const routes: Routes = [
         NgxMatDatetimePickerModule,
         NgxMatMomentModule,
         SharedModule,
-    ]
+    ],
+
+
 })
 export class JobsModule {
 }
