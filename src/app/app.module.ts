@@ -47,7 +47,8 @@ const routerConfig: ExtraOptions = {
             positionClass: 'toast-top-left'
         },),
         MatDialogModule,
-        MatButtonModule
+        MatButtonModule,
+
     ],
     bootstrap: [
         AppComponent

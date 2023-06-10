@@ -28,7 +28,7 @@
 
     </div>
     <!-- Attachments -->
-    <div class="flex-auto -mt-px pt-4 sm:pt-6 p-4 mx-8">
+    <div class="flex-auto -mt-px pt-4 sm:pt-6 px-4 mx-8">
         <div class="flex lg:flex-row flex-col gap-4 w-full  max-h-72 overflow-auto">
             <div class="w-full p-6 bg-card shadow rounded-2xl overflow-auto">
                 <div class="flex flex-col w-full gap-4">
@@ -54,10 +54,10 @@
                                     {{complain.comment}}
                                 </div>
                                 <div class="flex flex-col gap-2 mt-2 w-full justify-between cursor-pointer">
-                                        <img *ngIf="complain?.attachment_id" (click)="showLightbox(complain?.attachment_id)"
-                                             class="h-20 w-auto rounded-md "
-                                             [src]="'https://tawafat.xmotion-sa.com/api/attach/' + complain?.attachment_id"
-                                             [alt]="complain.attachmentType"/>
+                                    <img *ngIf="complain?.attachment_id" (click)="showLightbox(complain?.attachment_id)"
+                                         class="h-20 w-auto rounded-md "
+                                         [src]="'https://tawafat.xmotion-sa.com/api/attach/' + complain?.attachment_id"
+                                         [alt]="complain.attachmentType"/>
 
                                 </div>
                             </div>
@@ -67,8 +67,8 @@
             </div>
         </div>
     </div>
-    <!-- Main -->
-    <div class="flex-auto -mt-px pt-4 sm:pt-6 p-4 mx-8">
+    <!-- Job Details -->
+    <div class="flex-auto -mt-px pt-4 sm:pt-6 px-4 mx-8">
         <div class="flex lg:flex-row flex-col gap-4 w-full">
             <div class="w-full p-6 bg-card shadow rounded-2xl overflow-auto">
                 <div class="flex flex-row w-full justify-between">
@@ -96,19 +96,13 @@
                         <div>
                             <div class="text-sm font-bold">{{'الرقم التسلسلي'}}</div>
                             <div class="border rounded-md p-2 mt-1 mb-4 capitalize">
-                                {{jobDetail?.id}}
+                                {{job?.id}}
                             </div>
                         </div>
                         <div>
                             <div class="text-sm font-bold">{{'اسم الوظيفة'}}</div>
                             <div class="border rounded-md p-2 mt-1 mb-4 capitalize">
-                                {{jobDetail?.name}}
-                            </div>
-                        </div>
-                        <div>
-                            <div class="text-sm font-bold">{{'التصنيف'}}</div>
-                            <div class="border rounded-md p-2 mt-1 mb-4 capitalize">
-                                {{jobDetail?.category?.name}}
+                                {{job?.name}}
                             </div>
                         </div>
 
@@ -118,7 +112,7 @@
                                 <div>
                                     <div class="text-sm font-bold">{{'تاريخ البدء'}}</div>
                                     <div class="border rounded-md p-2 mt-1 mb-4 capitalize">
-                                        {{jobDetail?.start_date | dateTransform}}
+                                        {{job?.start_date | dateTransform}}
                                     </div>
                                 </div>
                             </div>
@@ -126,7 +120,7 @@
                                 <div>
                                     <div class="text-sm font-bold">{{'تاريخ الانتهاء'}}</div>
                                     <div class="border rounded-md p-2 mt-1 mb-4 capitalize">
-                                        {{jobDetail?.end_date | dateTransform}}
+                                        {{job?.end_date | dateTransform}}
                                     </div>
                                 </div>
                             </div>
@@ -135,13 +129,21 @@
                         <div>
                             <div class="text-sm font-bold">{{'وصف الوظيفة'}}</div>
                             <div class="border rounded-md p-2 mt-1 mb-4 capitalize">
-                                {{jobDetail?.description}}
+                                {{job?.description}}
                             </div>
                         </div>
                         <div>
+                            <div class="text-sm font-bold">{{'نوع الزيارة'}}</div>
+                            <div class="border rounded-md p-2 mt-1 mb-4 capitalize">
+                                {{getJobType(job?.type) || 'غير متوفر'}}
+                            </div>
+                        </div>
+
+
+                        <div>
                             <div class="text-sm font-bold">{{'العامل المسؤول'}}</div>
                             <div class="border rounded-md p-2 mt-1 mb-4 capitalize">
-                                {{jobDetail?.assigned_to?.email}}
+                                {{job?.assigned_to?.email || 'غير متوفر'}}
                             </div>
                         </div>
                     </div>
@@ -149,30 +151,197 @@
                         <div>
                             <div class="text-sm font-bold">{{'موقعا'}}</div>
                             <div class="border rounded-md p-2 mt-1 mb-4 capitalize">
-                                {{jobDetail?.location?.address}}
+                                {{job?.location?.address || 'غير متوفر'}}
                             </div>
                         </div>
 
                         <google-map
                             [options]="{streetViewControl:false}"
-                            [center]="{lat: parseFloat(jobDetail?.location?.lat), lng: parseFloat(jobDetail?.location?.long)}"
+                            [center]="{lat: parseFloat(job?.location?.lat), lng: parseFloat(job?.location?.long)}"
                             [zoom]="18" height="300px" width="100%">
                             <map-marker
-                                [position]="{lat: parseFloat(jobDetail?.location?.lat), lng: parseFloat(jobDetail?.location?.long)}"></map-marker>
+                                [position]="{lat: parseFloat(job?.location?.lat), lng: parseFloat(job?.location?.long)}"></map-marker>
                             <map-circle
-                                [options]="{center:{lat: parseFloat(jobDetail?.location?.lat), lng: parseFloat(jobDetail?.location?.long)},visible: true, radius:this.radius, fillColor:'#a17a3f', strokeColor: '#a17a3f'}"></map-circle>
+                                [options]="{center:{lat: parseFloat(job?.location?.lat), lng: parseFloat(job?.location?.long)},visible: true, radius:this.radius, fillColor:'#a17a3f', strokeColor: '#a17a3f'}"></map-circle>
                             <map-info-window>{{"Info Window content" }}</map-info-window>
 
                         </google-map>
-                        <div class="mt-2">
-                            <div class="text-sm font-bold">{{'نصف القطر'}}</div>
-                            <div class="border rounded-md p-2 mt-1 mb-4 capitalize">
-                                {{'add radius'}}
+                        <div class="flex flex-row w-full mt-4">
+                            <div class="flex flex-col w-1/2">
+                                <div class="text-sm font-bold mb-1">{{'جي بي إس'}}</div>
+                                <mat-slide-toggle [disabled]="true" color="primary" [checked]="job?.enable_gps"></mat-slide-toggle>
+                            </div>
+                            <div class="flex flex-col w-1/2">
+                                <div class="text-sm font-bold mb-1">{{'معرض الصور'}}</div>
+                                <mat-slide-toggle [disabled]="true" color="primary" [checked]="job?.enable_studio"></mat-slide-toggle>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
+        </div>
+    </div>
+    <!--Visit details-->
+    <div class="flex-auto -mt-px pt-4 sm:pt-6 px-4 pb-2 mx-8">
+        <div class="flex lg:flex-row flex-col gap-4 w-full">
+            <div class="w-full gap-2 p-6 bg-card shadow rounded-2xl overflow-auto">
+                <div class="flex flex-row w-full justify-between">
+                    <div class="font-bold">تفاصيل الزيارة</div>
+                </div>
+                <div [ngSwitch]="job.type">
+                    <!--Food Visit-->
+                    <div *ngSwitchCase="'1'" class="pt-4">
+                        <div class="flex flex-col sm:flex-row w-full gap-6">
+                            <div class="sm:w-1/3 w-full">
+                                <div class="text-sm font-bold">{{'نوع الزيارة'}}</div>
+                                <div class="border rounded-md p-2 mt-1 mb-4 capitalize">
+                                    {{getJobType(job?.type)}}
+                                </div>
+                            </div>
+                            <div class="sm:w-1/3 w-full">
+                                <div>
+                                    <div class="text-sm font-bold">{{'التاريخ والوقت'}}</div>
+                                    <div class="border rounded-md p-2 mt-1 mb-4 capitalize">
+                                        {{(job?.job_detail?.date_time | dateTransform) || 'غير متوفر'}}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="sm:w-1/3 w-full">
+                                <div>
+                                    <div class="text-sm font-bold">{{'تم التحديث في'}}</div>
+                                    <div class="border rounded-md p-2 mt-1 mb-4 capitalize">
+                                        {{(job?.job_detail?.updated_at | dateTransform) || 'غير متوفر'}}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="flex flex-col sm:flex-row w-full gap-6">
+                            <div class="sm:w-1/3 w-full">
+                                <div class="text-sm font-bold">{{'عدد الحزم'}}</div>
+                                <div class="border rounded-md p-2 mt-1 mb-4 capitalize">
+                                    {{job?.job_detail?.no_of_packages || 'غير متوفر'}}
+                                </div>
+                            </div>
+                            <div class="sm:w-1/3 w-full">
+                                <div class="text-sm font-bold">{{'عدد الحزم المرفوضة'}}</div>
+                                <div class="border rounded-md p-2 mt-1 mb-4 capitalize">
+                                    {{job?.job_detail?.rejected_packages || 'غير متوفر'}}
+                                </div>
+                            </div>
+                            <div class="sm:w-1/3 w-full">
+                                <div class="text-sm font-bold">{{'الحد الأدنى لوزن الحزمة'}}</div>
+                                <div class="border rounded-md p-2 mt-1 mb-4 capitalize">
+                                    {{job?.job_detail?.min_weight || 'غير متوفر'}}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!--Gate Visit-->
+                    <div *ngSwitchCase="'2'" class="pt-4">
+                        <div class="flex flex-col sm:flex-row w-full gap-6">
+                            <div class="sm:w-1/3 w-full">
+                                <div class="text-sm font-bold">{{'نوع الزيارة'}}</div>
+                                <div class="border rounded-md p-2 mt-1 mb-4 capitalize">
+                                    {{getJobType(job?.type)}}
+                                </div>
+                            </div>
+                            <div class="sm:w-1/3 w-full">
+                                <div>
+                                    <div class="text-sm font-bold">{{'التاريخ والوقت'}}</div>
+                                    <div class="border rounded-md p-2 mt-1 mb-4 capitalize">
+                                        {{(job?.job_detail?.date_time | dateTransform) || 'غير متوفر'}}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="sm:w-1/3 w-full">
+                                <div>
+                                    <div class="text-sm font-bold">{{'تم التحديث في'}}</div>
+                                    <div class="border rounded-md p-2 mt-1 mb-4 capitalize">
+                                        {{(job?.job_detail?.updated_at | dateTransform) || 'غير متوفر'}}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="flex flex-col sm:flex-row w-full gap-6">
+                            <div class="sm:w-1/3 w-full">
+                                <div class="text-sm font-bold">{{'رقم البوابة'}}</div>
+                                <div class="border rounded-md p-2 mt-1 mb-4 capitalize">
+                                    {{job?.job_detail?.gate_number || 'غير متوفر'}}
+                                </div>
+                            </div>
+                            <div class="sm:w-1/3 w-full">
+                                <div class="text-sm font-bold">{{'عدد الأشخاص الداخلين'}}</div>
+                                <div class="border rounded-md p-2 mt-1 mb-4 capitalize">
+                                    {{job?.job_detail?.no_entering || 'غير متوفر'}}
+                                </div>
+                            </div>
+                            <div class="sm:w-1/3 w-full">
+                                <div class="text-sm font-bold">{{'عدد الأشخاص الخارجين'}}</div>
+                                <div class="border rounded-md p-2 mt-1 mb-4 capitalize">
+                                    {{job?.job_detail?.no_exiting || 'غير متوفر'}}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="flex flex-col sm:flex-row w-full gap-6">
+                            <div class="sm:w-1/3 w-full">
+                                <div class="text-sm font-bold">{{'عدد الأشخاص في الداخل'}}</div>
+                                <div class="border rounded-md p-2 mt-1 mb-4 capitalize">
+                                    {{job?.job_detail?.no_inside || 'غير متوفر'}}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!--Camp Visit-->
+                    <div *ngSwitchCase="'3'" class="pt-4">
+                        <div class="flex flex-col sm:flex-row w-full gap-6">
+                            <div class="sm:w-1/3 w-full">
+                                <div class="text-sm font-bold">{{'نوع الزيارة'}}</div>
+                                <div class="border rounded-md p-2 mt-1 mb-4 capitalize">
+                                    {{getJobType(job?.type)}}
+                                </div>
+                            </div>
+                            <div class="sm:w-1/3 w-full">
+                                <div>
+                                    <div class="text-sm font-bold">{{'التاريخ والوقت'}}</div>
+                                    <div class="border rounded-md p-2 mt-1 mb-4 capitalize">
+                                        {{(job?.job_detail?.date_time | dateTransform) || 'غير متوفر'}}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="sm:w-1/3 w-full">
+                                <div>
+                                    <div class="text-sm font-bold">{{'تم التحديث في'}}</div>
+                                    <div class="border rounded-md p-2 mt-1 mb-4 capitalize">
+                                        {{(job?.job_detail?.updated_at | dateTransform) || 'غير متوفر'}}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="flex flex-col sm:flex-row w-full gap-6">
+                            <div class="sm:w-1/3 w-full">
+                                <div class="text-sm font-bold">{{'رقم المخيم'}}</div>
+                                <div class="border rounded-md p-2 mt-1 mb-4 capitalize">
+                                    {{job?.job_detail?.camp_number || 'غير متوفر'}}
+                                </div>
+                            </div>
+                            <div class="sm:w-1/3 w-full">
+                                <div class="text-sm font-bold">{{'درجة الحرارة'}}</div>
+                                <div class="border rounded-md p-2 mt-1 mb-4 capitalize">
+                                    {{job?.job_detail?.temperature || 'غير متوفر'}}
+                                </div>
+                            </div>
+                            <div class="sm:w-1/3 w-full">
+                                <div class="text-sm font-bold">{{'الرطوبة'}}</div>
+                                <div class="border rounded-md p-2 mt-1 mb-4 capitalize">
+                                    {{job?.job_detail?.humidity || 'غير متوفر'}}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div *ngSwitchDefault class="mt-4">{{'لم يكمل الموظف العمل بعد، سيتم توفير هذه المعلومات عند اكتمال العمل'}}</div>
+                </div>
+            </div>
+
         </div>
     </div>
 </div>

@@ -27,13 +27,6 @@ export const compactNavigation: FuseNavigationItem[] =
             icon: 'heroicons_solid:users',
             link: '/employees'
         },
-        {
-            id: 'categories',
-            title: 'التصنيفات',
-            tooltip: 'التصنيفات',
-            type: 'basic',
-            icon: 'mat_solid:category',
-            link: '/categories'
-        },
+
     ];
 export const defaultNavigation: FuseNavigationItem[] = compactNavigation;

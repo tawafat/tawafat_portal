@@ -97,4 +97,7 @@ export class Service {
     }
 
 
+    getJobsByType_API(job_type: string): Observable<any> {
+        return this._httpClient.get(`${environment.api_base_url}/job/type/${job_type}`)
+    }
 }

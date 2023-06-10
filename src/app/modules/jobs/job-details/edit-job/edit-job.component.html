@@ -45,18 +45,6 @@
                                     </mat-error>
                                 </mat-form-field>
 
-                                <mat-form-field appearance="fill" class="w-full  ">
-                                    <mat-label class="font-semibold">التصنيف</mat-label>
-                                    <mat-select [formControlName]="'category'">
-                                        <mat-option *ngFor="let category of categories" (click)="setCategory(category)" [value]="category.id">
-                                            {{category.name}}
-                                        </mat-option>
-                                    </mat-select>
-                                    <mat-error *ngIf="editJobForm?.get('category').getError('required')">
-                                        مطلوب التصنيف الوظيفة
-                                    </mat-error>
-                                </mat-form-field>
-
                                 <div class="flex flex-row gap-2">
                                     <div class="w-1/2">
                                         <mat-form-field appearance="fill" class="w-full  ">
@@ -101,6 +89,18 @@
                                     </mat-error>
                                 </mat-form-field>
                                 <mat-form-field class="w-full" appearance="fill">
+                                    <mat-label class="font-semibold">{{'نوع الزيارة'}}</mat-label>
+                                    <mat-select [formControlName]="'type'">
+                                        <mat-option *ngFor="let job of jobTypes"
+                                                    (change)="setJobType($event.value)" [value]="job.id">
+                                            {{job.name_ar |titlecase}}
+                                        </mat-option>
+                                    </mat-select>
+                                    <mat-error *ngIf="editJobForm.get('type').getError('required')">
+                                        مطلوب نوع الزيارة
+                                    </mat-error>
+                                </mat-form-field>
+                                <mat-form-field class="w-full" appearance="fill">
                                     <mat-label class="font-semibold">العامل المسؤول</mat-label>
                                     <mat-select [formControlName]="'assigned_to'">
                                         <mat-option *ngFor="let employee of employees" [value]="employee.id" (click)="setEmployee(employee)">
@@ -111,6 +111,16 @@
                                         مطلوب العامل المسؤول
                                     </mat-error>
                                 </mat-form-field>
+                                <div class="flex flex-row w-full">
+                                    <div class="flex flex-col w-1/2">
+                                        <div class="text-sm font-bold mb-1">{{'جي بي إس'}}</div>
+                                        <mat-slide-toggle [formControlName]="'gps'" color="primary" (toggleChange)="setGpsMode()" [checked]="jobDetails?.enable_gps"></mat-slide-toggle>
+                                    </div>
+                                    <div class="flex flex-col w-1/2">
+                                        <div class="text-sm font-bold mb-1">{{'معرض الصور'}}</div>
+                                        <mat-slide-toggle color="primary" (toggleChange)="setGalleryMode()" [formControlName]="'gallery'" [checked]="jobDetails?.enable_studio"></mat-slide-toggle>
+                                    </div>
+                                </div>
 
                             </form>
                         </div>
@@ -135,22 +145,14 @@
                                     <map-info-window>{{"Info Window content" }}</map-info-window>
 
                                 </google-map>
-                               <!-- <mat-form-field appearance="fill" class="w-full mt-2">
-                                    <mat-label class="font-semibold">نصف القطر</mat-label>
-                                    <input (input)="updateRadius()" type="number"
-                                        [formControlName]="'radius'" matInput [value]="radius"
-                                        [placeholder]="'أدخل نصف القطر'"
-                                        maxlength="40">
-                                    <mat-error *ngIf="editMapForm?.get('radius').getError('required')">
-                                        مطلوب نصف القطر
-                                    </mat-error>
-                                </mat-form-field>-->
+
                             </form>
+
                             <div class="flex flex-row w-full justify-end mt-4">
                                 <button
                                     mat-flat-button
                                     (click)="saveJob()"
-                                    [disabled]="editMapForm.invalid || editJobForm.invalid"
+                                    [disabled]="editMapForm.invalid"
                                     [color]="'primary'">
                                     <mat-icon
                                         class="icon-size-5"
@@ -159,6 +161,7 @@
                                 </button>
                             </div>
                         </div>
+
 
 
                     </div>

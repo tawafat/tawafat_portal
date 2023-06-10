@@ -143,7 +143,6 @@ export class EmployeesComponent {
     }
 
     editEmployee(employee: Employee): void {
-        debugger
         this.isReadOnly = true;
         this.selectedEmployee = employee;
         this.showFiller = !this.showFiller;

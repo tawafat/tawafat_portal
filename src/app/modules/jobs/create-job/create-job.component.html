@@ -37,24 +37,11 @@
                             <mat-form-field appearance="fill" class="w-full  ">
                                 <mat-label class="font-semibold">اسم الوظيفة</mat-label>
                                 <input [max]="25"
-                                    [formControlName]="'name'" matInput
-                                    [placeholder]="'اكتب اسم الوظيفة'"
-                                    maxlength="40">
+                                       [formControlName]="'name'" matInput
+                                       [placeholder]="'اكتب اسم الوظيفة'"
+                                       maxlength="40">
                                 <mat-error *ngIf="newJobForm.get('name').getError('required')">
                                     مطلوب اسم الوظيفة
-                                </mat-error>
-                            </mat-form-field>
-
-                            <mat-form-field appearance="fill" class="w-full  ">
-                                <mat-label class="font-semibold">التصنيف</mat-label>
-                                <mat-select [formControlName]="'category'">
-                                    <mat-option *ngFor="let category of categories" [value]="category"
-                                                (click)="setCategory(category)">
-                                        {{category.name |titlecase}}
-                                    </mat-option>
-                                </mat-select>
-                                <mat-error *ngIf="newJobForm.get('category').getError('required')">
-                                    مطلوب التصنيف الوظيفة
                                 </mat-error>
                             </mat-form-field>
 
@@ -104,8 +91,22 @@
                                     مطلوب وصف الوظيفة
                                 </mat-error>
                             </mat-form-field>
+
                             <mat-form-field class="w-full" appearance="fill">
-                                <mat-label class="font-semibold">العامل المسؤول</mat-label>
+                                <mat-label class="font-semibold">{{'نوع الزيارة'}}</mat-label>
+                                <mat-select [formControlName]="'type'">
+                                    <mat-option *ngFor="let job of jobTypes"
+                                                (click)="setJobType(job)" [value]="job.slug">
+                                        {{job.name_ar |titlecase}}
+                                    </mat-option>
+                                </mat-select>
+                                <mat-error *ngIf="newJobForm.get('type').getError('required')">
+                                    مطلوب نوع الزيارة
+                                </mat-error>
+                            </mat-form-field>
+
+                            <mat-form-field class="w-full" appearance="fill">
+                                <mat-label class="font-semibold">{{'العامل المسؤول'}}</mat-label>
                                 <mat-select [formControlName]="'assigned_to'">
                                     <mat-option *ngFor="let employee of employees" [value]="employee.id"
                                                 (click)="setEmployee(employee)">
@@ -116,6 +117,22 @@
                                     مطلوب العامل المسؤول
                                 </mat-error>
                             </mat-form-field>
+
+                            <div class="flex flex-row w-full">
+                                <div class="flex flex-col gap-2 w-1/2">
+                                    <mat-label class="font-semibold">{{'جي بي إس'}}</mat-label>
+                                    <mat-slide-toggle [color]="'primary'" (change)="setGPS()" [formControlName]="'gps'"
+                                                      [checked]="gps_flag">
+                                    </mat-slide-toggle>
+                                </div>
+                                <div class="flex flex-col gap-2 w-1/2">
+                                    <mat-label class="font-semibold">{{'المعرض'}}</mat-label>
+                                    <mat-slide-toggle [color]="'primary'" (change)="setGallery()" [formControlName]="'gallery'"
+                                                      [checked]="studio_flag">
+                                    </mat-slide-toggle>
+                                </div>
+                            </div>
+
 
                         </form>
                     </div>
@@ -142,15 +159,6 @@
                                 <map-info-window>{{"Info Window content" }}</map-info-window>
 
                             </google-map>
-                           <!-- <mat-form-field appearance="fill" class="w-full mt-2">
-                                <mat-label class="font-semibold">نصف القطر</mat-label>
-                                <input (input)="updateRadius($event)" type="number"
-                                       [formControlName]="'radius'" matInput
-                                       [placeholder]="'أدخل نصف القطر'">
-                                <mat-error *ngIf="newJobForm.get('radius').getError('required')">
-                                    مطلوب نصف القطر
-                                </mat-error>
-                            </mat-form-field>-->
                         </form>
                         <div class="flex flex-row w-full justify-end mt-4">
                             <button

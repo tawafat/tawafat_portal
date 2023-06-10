@@ -3,7 +3,7 @@ import {GoogleMap, MapGeocoder} from "@angular/google-maps";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {ActivatedRoute, Router} from "@angular/router";
 import {Service} from "../../../service/service";
-import {Category, Employee, Job, LocationDetails} from "../../../models/model";
+import {Category, Employee, Job, JobType, LocationDetails} from "../../../models/model";
 import moment from "moment";
 import MapTypeId = google.maps.MapTypeId;
 import {ToastrService} from "ngx-toastr";
@@ -46,6 +46,11 @@ export class EditJobComponent {
     private location: LocationDetails = {} as LocationDetails;
     private category: Category = {} as Category;
     private employee: Employee = {} as Employee;
+    jobTypes: JobType [] = {} as JobType[];
+    gallery: boolean;
+    gps: boolean;
+
+
 
     constructor(private _router: Router,
                 private _formBuilder: FormBuilder,
@@ -58,36 +63,46 @@ export class EditJobComponent {
 
     ngOnInit(): void {
         this.initForm();
-        this.getCategories();
+        this.initJobTypes();
         this.getEmployees();
         this._route.url.subscribe(() => {
             const routeSnapshot = this._route.snapshot;
             this.jobId = routeSnapshot.params.jobId;
         });
         this._service.getJobById_API(this.jobId).subscribe((response) => {
-            if (response){
+            if (response) {
                 this.jobDetails = response;
                 this.populateForm();
+                const selectedJob = this.jobTypes.find(job => job.slug === this.editJobForm.get('type').value);
+                if (selectedJob) {
+                    this.editJobForm.get('type').setValue(selectedJob.id, {emitEvent: false});
+                }
             }
         }, error => {
             this._toaster.warning('هناك خطأ ما');
         });
+
     }
+
+
 
     initForm(): void {
         this.editJobForm = this._formBuilder.group({
             name: ['', Validators.required],
-            category: ['', Validators.required],
+            type: ['', Validators.required],
+            gps: ['', Validators.required],
+            gallery: ['', Validators.required],
             start_date: ['', Validators.required],
             end_date: ['', Validators.required],
             description: ['', Validators.required],
             assigned_to: ['', Validators.required],
             location_lat: [''],
+            radius: ['50'],
             location_lng: [''],
         });
         this.editMapForm = this._formBuilder.group({
             location_address: ['', Validators.required],
-            radius: ['', Validators.required]
+            radius: ['50', Validators.required]
         });
     }
 
@@ -124,7 +139,6 @@ export class EditJobComponent {
                             strokeColor: '#a17a3f',
                             fillColor: '#a17a3f',
                         };
-                        debugger
                         this.map.zoom = 17;
                         this.zoom = 17;
 
@@ -141,15 +155,19 @@ export class EditJobComponent {
 
     populateForm(): void {
         this.editJobForm.get('name').setValue(this.jobDetails.name);
-        this.editJobForm.get('category').setValue(this.jobDetails.category.id);
         this.editJobForm.get('start_date').setValue(this.jobDetails.start_date);
         this.editJobForm.get('end_date').setValue(this.jobDetails.end_date);
         this.editJobForm.get('description').setValue(this.jobDetails.description);
+        this.editJobForm.get('type').setValue(this.jobDetails.type);
+        this.editJobForm.get('gps').setValue(this.jobDetails.enable_gps);
+        this.editJobForm.get('gallery').setValue(this.jobDetails.enable_studio);
         this.editJobForm.get('assigned_to').setValue(this.jobDetails.assigned_to.id);
         this.editMapForm.get('location_address').setValue(this.jobDetails.location.address);
         this.editJobForm.get('location_lat').setValue(this.jobDetails.location.lat);
         this.editJobForm.get('location_lng').setValue(this.jobDetails.location.long);
         // this.editJobForm.get('radius').setValue(this.jobDetails.radius);
+        this.gps = this.editJobForm.get('gps').value;
+        this.gallery = this.editJobForm.get('gallery').value;
         //Todo: add radius from api here
         this.editMapForm.get('radius').setValue(50);
         const lat = parseFloat(this.editJobForm.get('location_lat').value);
@@ -163,19 +181,8 @@ export class EditJobComponent {
             strokeColor: '#a17a3f',
             fillColor: '#a17a3f',
         };
-        this.category = this.jobDetails.category;
         this.employee = this.jobDetails.assigned_to;
 
-    }
-
-    getCategories(): any {
-        this._service.getCategories_API().subscribe((response) => {
-            if (response) {
-                this.categories = response;
-            }
-        }, error => {
-            this._toaster.warning('هناك خطأ ما');
-        });
     }
 
     getEmployees(): any {
@@ -185,7 +192,7 @@ export class EditJobComponent {
                 const user = localStorage.getItem('user');
                 const userObj = JSON.parse(user);
                 const adminIndex = this.employees.findIndex((employee) => employee.email === userObj.email);
-                this.employees.splice(adminIndex,1);
+                this.employees.splice(adminIndex, 1);
 
             }
         }, error => {
@@ -199,10 +206,6 @@ export class EditJobComponent {
 
     addMarker(event: google.maps.MapMouseEvent | { latLng: google.maps.LatLng }) {
         this.markerPosition = event.latLng.toJSON();
-
-        debugger
-
-
         this.geocoder.geocode({
             location: {lat: this.markerPosition.lat, lng: this.markerPosition.lng}
         }).subscribe(({results}) => {
@@ -231,7 +234,6 @@ export class EditJobComponent {
     }
 
     setLocation() {
-        debugger
         this.location.lat = this.markerPosition.lat.toString();
         this.location.long = this.markerPosition.lng.toString();
         this.location.address = this.editMapForm.get('location_address').value;
@@ -241,16 +243,17 @@ export class EditJobComponent {
         this.formatDate();
         this.setLocation();
         const body: Job = {
-            category: this.category,
             assigned_to: this.employee,
             name: this.editJobForm.get('name').value,
             assigned_to_id: this.employee.id,
-            category_slug: this.category.slug,
             location: this.location,
+            enable_gps: this.gps,
+            enable_studio: this.gallery,
             end_date: this.editJobForm.get('end_date').value,
             start_date: this.editJobForm.get('start_date').value,
             status: this.jobDetails?.status || 'inactive',
             description: this.editJobForm.get('description').value,
+            type: this.editJobForm.get('type').value,
             // radius: this.editJobForm.get('radius').value
 
         }
@@ -264,10 +267,6 @@ export class EditJobComponent {
         });
 
 
-    }
-
-    setCategory(category: Category) {
-        this.category = category;
     }
 
     setEmployee(employee: Employee) {
@@ -298,7 +297,6 @@ export class EditJobComponent {
         this.editJobForm.reset();
         this.editMapForm.reset();
         this.initForm();
-        this.getCategories();
         this.getEmployees();
         this._route.url.subscribe(() => {
             const routeSnapshot = this._route.snapshot;
@@ -308,5 +306,48 @@ export class EditJobComponent {
             this.jobDetails = response;
             this.populateForm();
         })
+    }
+
+    setJobType(job) {
+        this.editJobForm.get('type').setValue(job.slug);
+    }
+
+    private initJobTypes() {
+        this.jobTypes = [
+            {
+                id: '1',
+                name_ar: 'زيارة طعام',
+                slug: 'visit_food',
+            },
+            {
+                id: '2',
+                name_ar: 'زيارة باب',
+                slug: 'visit_gate'
+            },
+            {
+                id: '3',
+                name_ar: 'زيارة المخيم',
+                slug: 'visit_camp'
+            }
+        ]
+    }
+
+    private getJobTypeId(type: string) {
+        switch (type) {
+            case 'visit_food':
+                return '1'
+            case 'visit_gate':
+                return '2'
+            case 'visit_camp':
+                return '3'
+        }
+    }
+
+    setGalleryMode() {
+        this.gallery = !this.gallery;
+    }
+
+    setGpsMode() {
+        this.gps = !this.gps;
     }
 }

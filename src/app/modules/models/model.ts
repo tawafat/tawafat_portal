@@ -35,20 +35,47 @@ export interface Job {
     start_date: string;
     end_date: string;
     status: string;
+    enable_gps?: boolean;
+    type?:string;
+    enable_studio?: boolean;
     location_id?: number;
-    category_slug: string;
     assigned_to_id?: any;
     created_by_id?: number;
     updated_by_id?: number;
     created_at?: Date;
     updated_at?: Date;
     location: LocationDetails;
-    category?: Category;
     assigned_to?: Employee;
     updated_by?: UpdatedBy;
     created_by?: CreatedBy;
     complains?: Complain[],
+    job_detail?: JobDetail;
     // radius: string,
+}
+
+export interface JobDetail{
+    id: number;
+    job_id: number;
+    job_type: string;
+    no_of_packages?: number | null;
+    rejected_packages?: number | null;
+    min_weight?: number | null;
+    gate_number?: string | null;
+    no_entering?: number | null;
+    no_exiting?: number | null;
+    no_inside?: number | null;
+    camp_number?: string | null;
+    temperature?: number | null;
+    humidity?: number | null;
+    date_time: string;
+    created_at?: string | null;
+    updated_at?: string | null;
+}
+
+export interface JobType{
+    id: string;
+    name_ar: string;
+    slug: string;
 }
 
 export interface Category {

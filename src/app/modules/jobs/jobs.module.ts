@@ -24,6 +24,7 @@ import {
 } from "@angular-material-components/datetime-picker";
 import {NgxMatMomentModule} from "@angular-material-components/moment-adapter";
 import {SharedModule} from "../../shared/shared.module";
+import {MatSlideToggleModule} from "@angular/material/slide-toggle";
 
 const routes: Routes = [
     {
@@ -63,6 +64,7 @@ const routes: Routes = [
         MatDatepickerModule,
         MatNativeDateModule,
         MatSelectModule,
+        MatSlideToggleModule,
         MatTooltipModule,
         MatDatepickerModule,
         MatInputModule,

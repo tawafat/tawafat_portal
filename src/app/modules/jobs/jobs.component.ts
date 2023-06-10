@@ -16,7 +16,7 @@ export class JobsComponent implements OnInit {
     @ViewChild('paginator') paginator: MatPaginator;
     dataSource: MatTableDataSource<Job>;
     jobs: Job[] = [];
-    displayedColumns: string[] = ['status', 'name', 'category', 'startDate', 'endDate', 'assignedBy', 'complain'];
+    displayedColumns: string[] = ['status', 'name', 'startDate', 'endDate', 'assignedBy', 'complain'];
 
     constructor(private _router: Router, private _service:Service, private _toaster: ToastrService) {
     }

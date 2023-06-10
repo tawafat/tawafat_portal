@@ -6,3 +6,24 @@
         padding-right: 5px !important;
     }
 }
+
+table {
+    width: 100%;
+}
+
+.mat-mdc-row .mat-mdc-cell {
+    border-bottom: 1px solid transparent;
+    border-top: 1px solid transparent;
+    cursor: pointer;
+}
+
+.mat-mdc-row:hover .mat-mdc-cell {
+    background-color: rgba(143, 108, 55, 0.5);
+    color:white;
+    @apply border-primary-700;
+}
+
+.mat-mdc-paginator .mat-mdc-paginator-container{
+    place-content: end !important;
+}
+

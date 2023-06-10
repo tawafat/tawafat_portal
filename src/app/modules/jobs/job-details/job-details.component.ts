@@ -18,7 +18,7 @@ import {Dialog} from "@angular/cdk/dialog";
 export class JobDetailsComponent {
     @ViewChild('mapSearchField') searchField: ElementRef;
     @ViewChild(GoogleMap) map: GoogleMap;
-    public jobDetail: Job = {} as Job;
+    public job: Job = {} as Job;
     showFlag: boolean = false;
     selectedImageIndex: number = -1;
     complains: Complain[] = [];
@@ -52,15 +52,14 @@ export class JobDetailsComponent {
     }
 
     editJob(): void {
-        debugger
         this._router.navigate(['jobs/details/update/' + this.jobId]);
     }
 
     private getJobDetail(): void {
         this._service.getJobById_API(this.jobId).subscribe((response) => {
             if (response) {
-                this.jobDetail = response;
-                this.complains = this.jobDetail.complains;
+                this.job = response;
+                this.complains = this.job.complains;
             }
         }, error => {
             this._toaster.warning('هناك خطأ ما');
@@ -102,11 +101,21 @@ export class JobDetailsComponent {
     showLightbox(complainId: string) {
         console.log('complainId', complainId);
         const dialogRef = this.dialog.open(ImageDialogComponent,
-            {data: {id:complainId }});
+            {data: {id: complainId}});
 
         dialogRef.afterClosed().subscribe(result => {
             console.log(`Dialog result: ${result}`);
         });
     }
 
+    getJobType(type: string) {
+        switch (type) {
+            case '1':
+                return 'زيارة طعام'
+            case '2':
+                return 'زيارة باب'
+            case '3':
+                return 'زيارة المخيم'
+        }
+    }
 }

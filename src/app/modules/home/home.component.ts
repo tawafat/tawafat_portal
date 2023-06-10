@@ -1,4 +1,4 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
+import {Component, OnInit, ViewChild, AfterViewInit} from '@angular/core';
 import {
     ChartComponent,
     ApexOptions
@@ -7,6 +7,10 @@ import {User} from "../../core/user/user.types";
 import {Service} from "../service/service";
 import {Dashboard} from "../models/model";
 import {ToastrService} from "ngx-toastr";
+import {DataSource} from "@angular/cdk/collections";
+import {MatTableDataSource} from "@angular/material/table";
+import {MatTabChangeEvent} from "@angular/material/tabs";
+import {Router} from "@angular/router";
 
 
 @Component({
@@ -14,36 +18,34 @@ import {ToastrService} from "ngx-toastr";
     templateUrl: './home.component.html',
     styleUrls: ['./home.component.scss']
 })
-export class HomeComponent implements OnInit {
+export class HomeComponent implements OnInit, AfterViewInit {
     @ViewChild("chart") chart: ChartComponent;
     public user: User;
-    public chartOptions: Partial<ApexOptions>;
     public pieChartOptions: Partial<ApexOptions>;
 
     dashboard: Dashboard = {} as Dashboard;
+    dataSourceFoodVisit: MatTableDataSource<any>;
+    dataSourceGateVisit: MatTableDataSource<any>;
+    dataSourceCampVisit: MatTableDataSource<any>;
+    displayedColumnsFoodVisit: string[] = ['id', 'date_time', 'no_of_packages', 'rejected_packages', 'min_weight'];
+    displayedColumnsGateVisit: string[] = ['id', 'date_time', 'gate_number', 'no_entering', 'no_exiting', 'no_inside'];
+    displayedColumnsCampVisit: string[] = ['id', 'date_time', 'camp_number', 'temperature', 'humidity'];
+
+    jobs: any;
+    selectedJobType: number = 1;
 
     constructor(private _service: Service,
+                private _router: Router,
                 private _toaster: ToastrService) {
     }
 
     ngOnInit(): void {
+        this.dataSourceFoodVisit = new MatTableDataSource<any>();
+        this.dataSourceGateVisit = new MatTableDataSource<any>();
+        this.dataSourceCampVisit = new MatTableDataSource<any>();
+        this.getJobsByType('1');
         this.getDashboardDetails();
         this.user = JSON.parse(localStorage.getItem('user'));
-        this.chartOptions = {
-            series: [
-                {
-                    name: "My-series",
-                    data: [98, 91, 69, 62, 49, 51, 35, 41, 10]
-                }
-            ],
-            chart: {
-                height: 350,
-                type: "line"
-            },
-            xaxis: {
-                categories: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep"]
-            }
-        };
         this.pieChartOptions = {
             dataLabels: {
                 enabled: false,
@@ -108,19 +110,64 @@ export class HomeComponent implements OnInit {
         };
     }
 
+    ngAfterViewInit(): void {
+        if (this.selectedJobType === 1) {
+            this.dataSourceFoodVisit = new MatTableDataSource<any>(this.jobs);
+        } else if (this.selectedJobType === 2) {
+            this.dataSourceGateVisit = new MatTableDataSource<any>(this.jobs);
+        } else if (this.selectedJobType === 3) {
+            this.dataSourceCampVisit = new MatTableDataSource<any>(this.jobs);
+        } else {
+            this.dataSourceFoodVisit = new MatTableDataSource<any>(this.jobs);
+        }
+    }
+
     private getDashboardDetails(): void {
         this._service.getDashboard_API().subscribe((response) => {
             if (response) {
                 this.dashboard = response;
                 this.getPieResult();
-            }}, error => {
+            }
+        }, error => {
             this._toaster.warning('هناك خطأ ما');
 
         })
     }
 
+    private getJobsByType(job_type: string): void {
+        this._service.getJobsByType_API(job_type).subscribe((response) => {
+            if (response) {
+                this.jobs = response;
+                const filteredJobs = this.jobs.filter((job) => job.job_detail !== null);
+                this.jobs = filteredJobs;
+
+                if (job_type === '1') {
+                    this.dataSourceFoodVisit = new MatTableDataSource<any>(this.jobs);
+                } else if (job_type === '2') {
+                    this.dataSourceGateVisit = new MatTableDataSource<any>(this.jobs);
+                } else if (job_type === '3') {
+                    this.dataSourceCampVisit = new MatTableDataSource<any>(this.jobs);
+                } else {
+                    this.dataSourceFoodVisit = new MatTableDataSource<any>(this.jobs);
+                }
+            }}, error => {
+            this._toaster.warning('هناك خطأ ما');
+        })
+    }
+
     private getPieResult(): void {
         this.pieChartOptions.series = [parseInt(this.dashboard?.pie?.inactive), parseInt(this.dashboard?.pie?.active), parseInt(this.dashboard?.pie?.completed), parseInt(this.dashboard?.pie?.cancelled)];
+    }
+
+    toggleJobType($event: MatTabChangeEvent) {
+        const index = $event.index + 1;
+        this.selectedJobType = index;
+        console.log(index);
+        this.getJobsByType(index.toString());
+    }
+
+    openJob(id) {
+        this._router.navigate(['jobs/details/' + id]);
     }
 }
 
