@@ -11,7 +11,6 @@ import {MatInputModule} from "@angular/material/input";
 import {MatFormFieldModule} from "@angular/material/form-field";
 import {MatTableModule} from "@angular/material/table";
 import {SharedModule} from "../../shared/shared.module";
-import {MatPaginatorModule} from "@angular/material/paginator";
 
 
 const routes: Routes = [
@@ -35,7 +34,6 @@ const routes: Routes = [
         MatFormFieldModule,
         MatTableModule,
         SharedModule,
-        MatPaginatorModule,
     ]
 })
 export class EmployeesModule {

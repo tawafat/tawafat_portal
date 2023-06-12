@@ -4,11 +4,9 @@ import {Service} from "../service/service";
 import {Employee} from "../models/model";
 import {MatTableDataSource} from "@angular/material/table";
 import moment from "moment";
-import {MatPaginator} from "@angular/material/paginator";
 import {ToastrService} from "ngx-toastr";
 import {FuseConfirmationService} from "../../../@fuse/services/confirmation";
 import {FuseValidators} from "../../../@fuse/validators";
-import {AuthService} from "../../core/auth/auth.service";
 import {UserService} from "../../core/user/user.service";
 
 
@@ -23,7 +21,6 @@ export class EmployeesComponent {
     createUserForm: FormGroup;
     selectedEmployee: Employee = {} as Employee;
     employees: Employee[] = [];
-    @ViewChild('paginator') paginator: MatPaginator;
     isEdit: boolean = false;
     dataSource: MatTableDataSource<any>;
     displayedColumns: string[] = ['number', 'id', 'name', 'email', 'created_at', 'updated_at', 'action'];
@@ -61,14 +58,6 @@ export class EmployeesComponent {
                 const adminIndex = this.employees.findIndex((employee) => employee.email === userObj.email);
                 this.employees.splice(adminIndex,1);
                 this.dataSource = new MatTableDataSource<Employee>(this.employees);
-                if (this.employees.length){
-                    this.dataSource.paginator = this.paginator;
-                    this.paginator._intl.itemsPerPageLabel = 'عدد الوحدات في الصفحة';
-                    this.paginator._intl.nextPageLabel = 'الصفحة التالية';
-                    this.paginator._intl.firstPageLabel = 'الصفحة الأولى';
-                    this.paginator._intl.previousPageLabel = 'الصفحة السابقة';
-                    this.paginator._intl.lastPageLabel = 'آخر صفحة';
-                }
             }
         }, error => {
             this._toaster.warning('هناك خطأ ما');

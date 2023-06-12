@@ -15,7 +15,6 @@ import {MatTabsModule} from "@angular/material/tabs";
 import {NgApexchartsModule} from "ng-apexcharts";
 import {TranslocoModule} from "@ngneat/transloco";
 import {SharedModule} from "../../shared/shared.module";
-import {MatPaginatorModule} from "@angular/material/paginator";
 
 const routes: Routes = [
     {
@@ -44,7 +43,6 @@ const routes: Routes = [
         NgApexchartsModule,
         TranslocoModule,
         SharedModule,
-        MatPaginatorModule,
     ]
 })
 export class HomeModule { }

@@ -1,7 +1,6 @@
-import {AfterViewInit, Component, OnInit, ViewChild} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {MatTableDataSource} from "@angular/material/table";
-import {MatPaginator} from "@angular/material/paginator";
 import {HttpClient} from "@angular/common/http";
 import {Service} from "../service/service";
 import {ToastrService} from "ngx-toastr";
@@ -17,7 +16,6 @@ import moment from "moment/moment";
 export class SettingsComponent implements OnInit {
     showFiller: boolean = false;
     createCategoryForm: FormGroup;
-    @ViewChild('paginator') paginator: MatPaginator;
     dataSource: MatTableDataSource<any>;
 
     categories: Category[] = [];
@@ -95,12 +93,7 @@ export class SettingsComponent implements OnInit {
                 this.categories = response;
                 this.categories.sort((b, a) => moment(a.created_at, 'YYYY-MM-DD hh:mm:ss a').unix() - moment(b.created_at, 'YYYY-MM-DD hh:mm:ss a').unix());
                 this.dataSource = new MatTableDataSource<Category>(this.categories);
-                this.dataSource.paginator = this.paginator;
-                this.paginator._intl.itemsPerPageLabel = 'عدد الوحدات في الصفحة';
-                this.paginator._intl.nextPageLabel = 'الصفحة التالية';
-                this.paginator._intl.firstPageLabel = 'الصفحة الأولى';
-                this.paginator._intl.previousPageLabel = 'الصفحة السابقة';
-                this.paginator._intl.lastPageLabel = 'آخر صفحة';
+
             }
         }, error => {
             this._toaster.warning('هناك خطأ ما');

@@ -4,15 +4,13 @@ import {Router} from '@angular/router';
 import {Service} from '../service/service';
 import {Job} from '../models/model';
 import {ToastrService} from 'ngx-toastr';
-import {MatPaginator} from "@angular/material/paginator";
 
 @Component({
     selector: 'app-jobs',
     templateUrl: './jobs.component.html',
     styleUrls: ['./jobs.component.scss'],
 })
-export class JobsComponent implements OnInit, AfterViewInit {
-    @ViewChild(MatPaginator) paginator: MatPaginator;
+export class JobsComponent implements OnInit{
     dataSource: MatTableDataSource<Job> = new MatTableDataSource<Job>();
     jobs: Job[] = [];
     displayedColumns: string[] = [
@@ -34,16 +32,6 @@ export class JobsComponent implements OnInit, AfterViewInit {
     ngOnInit(): void {
         this.getJobs();
     }
-
-    ngAfterViewInit(): void {
-        this.dataSource.paginator = this.paginator;
-        this.paginator._intl.itemsPerPageLabel = 'عدد الوحدات في الصفحة';
-        this.paginator._intl.nextPageLabel = 'الصفحة التالية';
-        this.paginator._intl.firstPageLabel = 'الصفحة الأولى';
-        this.paginator._intl.previousPageLabel = 'الصفحة السابقة';
-        this.paginator._intl.lastPageLabel = 'آخر صفحة';
-    }
-
     createJob(): void {
         this.router.navigate(['jobs/create']);
     }
@@ -54,7 +42,6 @@ export class JobsComponent implements OnInit, AfterViewInit {
                 if (response) {
                     this.jobs = response;
                     this.dataSource.data = response;
-                    this.dataSource.paginator = this.paginator;
                 }
             },
             (error) => {
