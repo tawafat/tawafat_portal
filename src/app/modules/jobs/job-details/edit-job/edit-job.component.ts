@@ -189,11 +189,6 @@ export class EditJobComponent {
         this._service.getEmployees_API().subscribe((response) => {
             if (response) {
                 this.employees = response;
-                const user = localStorage.getItem('user');
-                const userObj = JSON.parse(user);
-                const adminIndex = this.employees.findIndex((employee) => employee.email === userObj.email);
-                this.employees.splice(adminIndex, 1);
-
             }
         }, error => {
             this._toaster.warning('هناك خطأ ما');
