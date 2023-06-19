@@ -95,6 +95,7 @@ export interface Employee {
     password_confirmation?: string;
     email?: string;
     email_verified_at?: any;
+    role_id?: string;
     created_at?: Date;
     updated_at?: Date;
 }

@@ -75,7 +75,7 @@ export class Service {
     }
 
     getEmployees_API(): Observable<any> {
-        return this._httpClient.get(environment.api_base_url + '/user');
+        return this._httpClient.get(environment.api_base_url + '/user/employees');
     }
 
     /*Attachment APIs*/

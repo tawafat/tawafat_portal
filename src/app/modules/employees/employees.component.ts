@@ -51,12 +51,7 @@ export class EmployeesComponent {
         this._service.getEmployees_API().subscribe((response) => {
             if (response) {
                 this.employees = response;
-
                 this.employees.sort((b, a) => moment(a.created_at, 'YYYY-MM-DD hh:mm:ss a').unix() - moment(b.created_at, 'YYYY-MM-DD hh:mm:ss a').unix());
-                const user = localStorage.getItem('user');
-                const userObj = JSON.parse(user);
-                const adminIndex = this.employees.findIndex((employee) => employee.email === userObj.email);
-                this.employees.splice(adminIndex,1);
                 this.dataSource = new MatTableDataSource<Employee>(this.employees);
             }
         }, error => {
@@ -69,6 +64,7 @@ export class EmployeesComponent {
             name: this.createUserForm.get('name').value,
             email: this.createUserForm.get('email').value,
             password: this.createUserForm.get('password').value,
+            role_id: '3',
             password_confirmation: this.createUserForm.get('confirm_password').value,
         }
         this._service.addEmployee_API(body).subscribe((response) => {
