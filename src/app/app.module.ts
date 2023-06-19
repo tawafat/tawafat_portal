@@ -12,9 +12,11 @@ import {mockApiServices} from 'app/mock-api';
 import {LayoutModule} from 'app/layout/layout.module';
 import {AppComponent} from 'app/app.component';
 import {appRoutes} from 'app/app.routing';
-import { ImageDialogComponent } from './modules/image-dialog/image-dialog.component';
+import {ImageDialogComponent} from './modules/image-dialog/image-dialog.component';
 import {MatDialogModule} from "@angular/material/dialog";
 import {MatButtonModule} from "@angular/material/button";
+import {EndpointInterceptorInterceptor} from "./modules/service/endpoint-interceptor.interceptor";
+import {HTTP_INTERCEPTORS} from "@angular/common/http";
 
 const routerConfig: ExtraOptions = {
     preloadingStrategy: PreloadAllModules,
@@ -25,6 +27,13 @@ const routerConfig: ExtraOptions = {
     declarations: [
         AppComponent,
         ImageDialogComponent,
+    ],
+    providers: [
+        {
+            provide: HTTP_INTERCEPTORS,
+            useClass: EndpointInterceptorInterceptor,
+            multi: true
+        }
     ],
     imports: [
         BrowserModule,

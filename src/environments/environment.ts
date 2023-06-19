@@ -6,10 +6,9 @@ export const environment = {
   production: false,
   env: 'local',
   api_base_url: 'https://tawafat.xmotion-sa.com/api',
-  base_url: 'http://localhost:4200',
+  base_url: 'https://tawafat.xmotion-sa.com',
   pre_title: 'Tawafat Al Haj | ',
   appVersion: require('../../package.json').version + '-local',
-
 };
 
 /*
