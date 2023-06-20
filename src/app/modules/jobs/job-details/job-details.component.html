@@ -107,8 +107,8 @@
                         </div>
 
 
-                        <div class="flex flex-row gap-2">
-                            <div class="w-1/2">
+                        <div class="flex sm:flex-row flex-col gap-2">
+                            <div class="sm:w-1/2 w-full">
                                 <div>
                                     <div class="text-sm font-bold">{{'تاريخ البدء'}}</div>
                                     <div class="border rounded-md p-2 mt-1 mb-4 capitalize">
@@ -116,7 +116,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="w-1/2">
+                            <div class="sm:w-1/2 w-full">
                                 <div>
                                     <div class="text-sm font-bold">{{'تاريخ الانتهاء'}}</div>
                                     <div class="border rounded-md p-2 mt-1 mb-4 capitalize">
@@ -155,7 +155,7 @@
                             </div>
                         </div>
 
-                        <google-map *ngIf="job?.enable_gps"
+                      <!--  <google-map *ngIf="job?.enable_gps"
                             [options]="{streetViewControl:false}"
                             [center]="{lat: parseFloat(job?.location?.lat), lng: parseFloat(job?.location?.long)}"
                             [zoom]="18" height="300px" width="100%">
@@ -165,12 +165,12 @@
                                 [options]="{center:{lat: parseFloat(job?.location?.lat), lng: parseFloat(job?.location?.long)},visible: true, radius:this.radius, fillColor:'#a17a3f', strokeColor: '#a17a3f'}"></map-circle>
                             <map-info-window>{{"Info Window content" }}</map-info-window>
 
-                        </google-map>
+                       </google-map> -->
                         <div class="flex flex-row w-full mt-4">
-                            <div class="flex flex-col w-1/2">
+                           <!-- <div class="flex flex-col w-1/2">
                                 <div class="text-sm font-bold mb-1">{{'جي بي إس'}}</div>
                                 <mat-slide-toggle [disabled]="true" color="primary" [checked]="job?.enable_gps"></mat-slide-toggle>
-                            </div>
+                            </div>-->
                             <div class="flex flex-col w-1/2">
                                 <div class="text-sm font-bold mb-1">{{'معرض الصور'}}</div>
                                 <mat-slide-toggle [disabled]="true" color="primary" [checked]="job?.enable_studio"></mat-slide-toggle>
@@ -186,7 +186,7 @@
         <div class="flex lg:flex-row flex-col gap-4 w-full">
             <div class="w-full gap-2 p-6 bg-card shadow rounded-2xl overflow-auto">
                 <div class="flex flex-row w-full justify-between">
-                    <div class="font-bold">تفاصيل الزيارة</div>
+                    <div class="font-bold">الوجبات الزيارة</div>
                 </div>
                 <div [ngSwitch]="job.type">
                     <!--Food Visit-->

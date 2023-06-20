@@ -97,15 +97,15 @@
                                         *matCellDef="let element">{{element?.job_detail?.date_time | dateTransform}}</td>
                                 </ng-container>
                                 <ng-container matColumnDef="no_of_packages">
-                                    <th mat-header-cell *matHeaderCellDef>{{'عدد الطرود'}}</th>
+                                    <th mat-header-cell *matHeaderCellDef>{{'عدد الوجبات'}}</th>
                                     <td mat-cell *matCellDef="let element">{{element?.job_detail?.no_of_packages}}</td>
                                 </ng-container>
                                 <ng-container matColumnDef="rejected_packages">
-                                    <th mat-header-cell *matHeaderCellDef>{{'عدد الطرود المرفوضة'}}</th>
+                                    <th mat-header-cell *matHeaderCellDef>{{'عدد الوجبات المرفوضة'}}</th>
                                     <td mat-cell *matCellDef="let element">{{element?.job_detail?.rejected_packages}}</td>
                                 </ng-container>
                                 <ng-container matColumnDef="min_weight">
-                                    <th mat-header-cell *matHeaderCellDef>{{'الحد الأدنى للوزن'}}</th>
+                                    <th mat-header-cell *matHeaderCellDef>{{'الحد الادنى لوزن الوجبه'}}</th>
                                     <td mat-cell *matCellDef="let element">{{element?.job_detail?.min_weight}}</td>
                                 </ng-container>
                                 <tr mat-header-row *matHeaderRowDef="displayedColumnsFoodVisit"></tr>

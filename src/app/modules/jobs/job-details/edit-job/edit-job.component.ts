@@ -90,7 +90,7 @@ export class EditJobComponent {
         this.editJobForm = this._formBuilder.group({
             name: ['', Validators.required],
             type: ['', Validators.required],
-            gps: ['', Validators.required],
+            // gps: ['', Validators.required],
             gallery: ['', Validators.required],
             start_date: ['', Validators.required],
             end_date: ['', Validators.required],
@@ -159,14 +159,14 @@ export class EditJobComponent {
         this.editJobForm.get('end_date').setValue(this.jobDetails.end_date);
         this.editJobForm.get('description').setValue(this.jobDetails.description);
         this.editJobForm.get('type').setValue(this.jobDetails.type);
-        this.editJobForm.get('gps').setValue(this.jobDetails.enable_gps);
+        // this.editJobForm.get('gps').setValue(this.jobDetails.enable_gps);
         this.editJobForm.get('gallery').setValue(this.jobDetails.enable_studio);
         this.editJobForm.get('assigned_to').setValue(this.jobDetails.assigned_to.id);
         this.editMapForm.get('location_address').setValue(this.jobDetails.location.address);
         this.editJobForm.get('location_lat').setValue(this.jobDetails.location.lat);
         this.editJobForm.get('location_lng').setValue(this.jobDetails.location.long);
         // this.editJobForm.get('radius').setValue(this.jobDetails.radius);
-        this.gps = this.editJobForm.get('gps').value;
+        // this.gps = this.editJobForm.get('gps').value;
         this.gallery = this.editJobForm.get('gallery').value;
         //Todo: add radius from api here
         this.editMapForm.get('radius').setValue(50);

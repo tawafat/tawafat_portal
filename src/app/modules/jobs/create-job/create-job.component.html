@@ -29,10 +29,10 @@
     </div>
     <!-- Main -->
     <div class="flex-auto border-t -mt-px pt-4 sm:pt-6 p-4 mx-8">
-        <div class="flex lg:flex-row flex-col gap-4 w-full">
+        <div class="flex sm:flex-row flex-col gap-4 w-full">
             <div class="w-full p-6 bg-card shadow rounded-2xl overflow-auto">
-                <div class="flex flex-row w-full gap-6">
-                    <div class="w-1/2">
+                <div class="flex sm:flex-row flex-col w-full gap-6">
+                    <div class="sm:w-1/2 w-full">
                         <form [formGroup]="newJobForm" class="flx-wrap">
                             <mat-form-field appearance="fill" class="w-full  ">
                                 <mat-label class="font-semibold">اسم الوظيفة</mat-label>
@@ -45,8 +45,8 @@
                                 </mat-error>
                             </mat-form-field>
 
-                            <div class="flex flex-row gap-2">
-                                <div class="w-1/2">
+                            <div class="flex sm:flex-row flex-col gap-2">
+                                <div class="sm:w-1/2 w-full">
                                     <mat-form-field appearance="fill" class="w-full">
                                         <mat-label class="font-semibold">تاريخ البدء</mat-label>
                                         <input matInput [min]="minDate" [ngxMatDatetimePicker]="pickerStart"
@@ -62,7 +62,7 @@
                                     </mat-form-field>
 
                                 </div>
-                                <div class="w-1/2">
+                                <div class="sm:w-1/2 w-full">
                                     <mat-form-field appearance="fill" class="w-full">
                                         <mat-label class="font-semibold">تاريخ الانتهاء</mat-label>
                                         <input matInput [min]="minDate" [ngxMatDatetimePicker]="pickerEnd"
@@ -119,12 +119,12 @@
                             </mat-form-field>
 
                             <div class="flex flex-row w-full">
-                                <div class="flex flex-col gap-2 w-1/2">
-                                    <mat-label class="font-semibold">{{'جي بي إس'}}</mat-label>
-                                    <mat-slide-toggle [color]="'primary'" (change)="setGPS()" [formControlName]="'gps'"
-                                                      [checked]="gps_flag">
-                                    </mat-slide-toggle>
-                                </div>
+<!--                                <div class="flex flex-col gap-2 w-1/2">-->
+<!--                                    <mat-label class="font-semibold">{{'جي بي إس'}}</mat-label>-->
+<!--                                    <mat-slide-toggle [color]="'primary'" (change)="setGPS()" [formControlName]="'gps'"-->
+<!--                                                      [checked]="gps_flag">-->
+<!--                                    </mat-slide-toggle>-->
+<!--                                </div>-->
                                 <div class="flex flex-col gap-2 w-1/2">
                                     <mat-label class="font-semibold">{{'المعرض'}}</mat-label>
                                     <mat-slide-toggle [color]="'primary'" (change)="setGallery()" [formControlName]="'gallery'"
@@ -136,10 +136,10 @@
 
                         </form>
                     </div>
-                    <div class="sm:w-1/2 w-full" *ngIf="!gps_flag">
+                    <div class="sm:w-1/2 w-full">
                         <form [formGroup]="newJobForm" class="flx-wrap">
                             <mat-form-field appearance="fill" class="w-full  ">
-                                <mat-label class="font-semibold">اختر موقعا</mat-label>
+                                <mat-label class="font-semibold">وصف الموقع</mat-label>
                                 <input [formControlName]="'location_address'" matInput
                                        [placeholder]="'بحث في الخريطو'">
                                 <mat-error *ngIf="newJobForm.get('location_address').getError('required')">
@@ -160,7 +160,7 @@
                             </button>
                         </div>
                     </div>
-                    <div class="sm:w-1/2 w-full" *ngIf="gps_flag">
+                    <!--<div class="sm:w-1/2 w-full" *ngIf="gps_flag">
                         <form [formGroup]="newJobForm" class="flx-wrap">
                             <mat-form-field appearance="fill" class="w-full  ">
                                 <mat-label class="font-semibold">اختر موقعا</mat-label>
@@ -196,7 +196,7 @@
                                 <span class="mr-2">حفظ</span>
                             </button>
                         </div>
-                    </div>
+                    </div>-->
 
 
 

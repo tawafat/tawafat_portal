@@ -65,7 +65,7 @@ export class CreateJobComponent {
             description: ['test', Validators.required],
             assigned_to: ['', Validators.required],
             location_address: ['', Validators.required],
-            gps: [this.gps_flag, Validators.required],
+            // gps: [this.gps_flag, Validators.required],
             gallery: [this.studio_flag, Validators.required],
             location_lat: [''],
             location_lng: [''],
@@ -191,7 +191,7 @@ export class CreateJobComponent {
         this.setLocation();
         const body: Job = {
             assigned_to: this.employee,
-            enable_gps: this.newJobForm.get('gps').value,
+            // enable_gps: this.newJobForm.get('gps').value,
             enable_studio: this.newJobForm.get('gallery').value,
             type: this.newJobForm.get('type').value,
             name: this.newJobForm.get('name').value,
