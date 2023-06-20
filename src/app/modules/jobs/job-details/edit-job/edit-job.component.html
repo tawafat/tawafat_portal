@@ -128,7 +128,7 @@
                             <form [formGroup]="editMapForm" class="flex-wrap">
                                 <mat-form-field appearance="fill" class="w-full  ">
                                     <mat-label class="font-semibold">اختر موقعا</mat-label>
-                                    <input #mapSearchField [formControlName]="'location_address'" matInput
+                                    <input  [formControlName]="'location_address'" matInput
                                            [placeholder]="'بحث في الخريطو'">
                                     <mat-error *ngIf="editMapForm?.get('location_address').getError('required')">
                                         مطلوب موقعا
