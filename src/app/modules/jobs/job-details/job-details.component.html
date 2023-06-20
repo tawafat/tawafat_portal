@@ -155,7 +155,7 @@
                             </div>
                         </div>
 
-                        <google-map
+                        <google-map *ngIf="job?.enable_gps"
                             [options]="{streetViewControl:false}"
                             [center]="{lat: parseFloat(job?.location?.lat), lng: parseFloat(job?.location?.long)}"
                             [zoom]="18" height="300px" width="100%">

@@ -136,7 +136,31 @@
 
                         </form>
                     </div>
-                    <div class="w-1/2">
+                    <div class="sm:w-1/2 w-full" *ngIf="!gps_flag">
+                        <form [formGroup]="newJobForm" class="flx-wrap">
+                            <mat-form-field appearance="fill" class="w-full  ">
+                                <mat-label class="font-semibold">اختر موقعا</mat-label>
+                                <input [formControlName]="'location_address'" matInput
+                                       [placeholder]="'بحث في الخريطو'">
+                                <mat-error *ngIf="newJobForm.get('location_address').getError('required')">
+                                    مطلوب موقعا
+                                </mat-error>
+                            </mat-form-field>
+                        </form>
+                        <div class="flex flex-row w-full justify-end mt-4">
+                            <button
+                                mat-flat-button
+                                [disabled]="newJobForm.invalid"
+                                (click)="saveJob()"
+                                [color]="'primary'">
+                                <mat-icon
+                                    class="icon-size-5"
+                                    [svgIcon]="'heroicons_solid:check'"></mat-icon>
+                                <span class="mr-2">حفظ</span>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="sm:w-1/2 w-full" *ngIf="gps_flag">
                         <form [formGroup]="newJobForm" class="flx-wrap">
                             <mat-form-field appearance="fill" class="w-full  ">
                                 <mat-label class="font-semibold">اختر موقعا</mat-label>
@@ -173,6 +197,7 @@
                             </button>
                         </div>
                     </div>
+
 
 
                 </div>
