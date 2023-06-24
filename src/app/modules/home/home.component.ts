@@ -7,7 +7,6 @@ import {User} from "../../core/user/user.types";
 import {Service} from "../service/service";
 import {Dashboard} from "../models/model";
 import {ToastrService} from "ngx-toastr";
-import {DataSource} from "@angular/cdk/collections";
 import {MatTableDataSource} from "@angular/material/table";
 import {MatTabChangeEvent} from "@angular/material/tabs";
 import {Router} from "@angular/router";
@@ -27,9 +26,9 @@ export class HomeComponent implements OnInit, AfterViewInit {
     dataSourceFoodVisit: MatTableDataSource<any>;
     dataSourceGateVisit: MatTableDataSource<any>;
     dataSourceCampVisit: MatTableDataSource<any>;
-    displayedColumnsFoodVisit: string[] = ['id', 'date_time', 'no_of_packages', 'rejected_packages', 'min_weight'];
-    displayedColumnsGateVisit: string[] = ['id', 'date_time', 'gate_number', 'no_entering', 'no_exiting', 'no_inside'];
-    displayedColumnsCampVisit: string[] = ['id', 'date_time', 'camp_number', 'temperature', 'humidity'];
+    displayedColumnsFoodVisit: string[] = ['id', 'date_time', 'no_of_packages', 'rejected_packages', 'min_weight','location','name'];
+    displayedColumnsGateVisit: string[] = ['id', 'date_time', 'gate_number', 'no_entering', 'no_exiting', 'no_inside','location','name'];
+    displayedColumnsCampVisit: string[] = ['id', 'date_time', 'camp_number', 'temperature', 'humidity','location','name'];
 
     jobs: any;
     selectedJobType: number = 1;

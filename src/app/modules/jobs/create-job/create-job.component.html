@@ -139,11 +139,11 @@
                     <div class="sm:w-1/2 w-full">
                         <form [formGroup]="newJobForm" class="flx-wrap">
                             <mat-form-field appearance="fill" class="w-full  ">
-                                <mat-label class="font-semibold">وصف الموقع</mat-label>
+                                <mat-label class="font-semibold">وصف الالموقع</mat-label>
                                 <input [formControlName]="'location_address'" matInput
                                        [placeholder]="'بحث في الخريطو'">
                                 <mat-error *ngIf="newJobForm.get('location_address').getError('required')">
-                                    مطلوب موقعا
+                                    مطلوب الموقعا
                                 </mat-error>
                             </mat-form-field>
                         </form>
@@ -163,11 +163,11 @@
                     <!--<div class="sm:w-1/2 w-full" *ngIf="gps_flag">
                         <form [formGroup]="newJobForm" class="flx-wrap">
                             <mat-form-field appearance="fill" class="w-full  ">
-                                <mat-label class="font-semibold">اختر موقعا</mat-label>
+                                <mat-label class="font-semibold">اختر الموقعا</mat-label>
                                 <input #mapSearchField [formControlName]="'location_address'" matInput
                                        [placeholder]="'بحث في الخريطو'">
                                 <mat-error *ngIf="newJobForm.get('location_address').getError('required')">
-                                    مطلوب موقعا
+                                    مطلوب الموقعا
                                 </mat-error>
                             </mat-form-field>
 
