@@ -56,7 +56,7 @@
                                 <div class="flex flex-col gap-2 mt-2 w-full justify-between cursor-pointer">
                                     <img *ngIf="complain?.attachment_id" (click)="showLightbox(complain?.attachment_id)"
                                          class="h-20 w-auto rounded-md "
-                                         [src]="'https://tawafat.xmotion-sa.com/api/attach/' + complain?.attachment_id"
+                                         [src]="'https://tawafat-api.walhalabi.com/api/attach/' + complain?.attachment_id"
                                          [alt]="complain.attachmentType"/>
 
                                 </div>

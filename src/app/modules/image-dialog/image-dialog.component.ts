@@ -26,7 +26,7 @@ export class ImageDialogComponent implements OnInit {
 
 
     downloadImg() {
-        const imgUrl = 'https://tawafat.xmotion-sa.com/api/attach/' + this.imageId;
+        const imgUrl = 'https://tawafat-api.walhalabi.com/api/attach/' + this.imageId;
         this._imageService
             .getData(imgUrl)
             .subscribe(imgData => (this.imgData = imgData), err => console.log(err));

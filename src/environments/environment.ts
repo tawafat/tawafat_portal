@@ -5,8 +5,9 @@
 export const environment = {
   production: false,
   env: 'local',
-  api_base_url: 'https://tawafat.xmotion-sa.com/api',
-  base_url: 'https://tawafat.xmotion-sa.com',
+  api_base_url: 'https://tawafat-api.walhalabi.com/api',
+  base_url: 'walhalabi.com',
+  attachement_url:"", 
   pre_title: 'Tawafat Al Haj | ',
   appVersion: require('../../package.json').version + '-local',
 };
